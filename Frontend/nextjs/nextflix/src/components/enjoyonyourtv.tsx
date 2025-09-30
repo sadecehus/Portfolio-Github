@@ -1,0 +1,28 @@
+import Image from "next/image";
+import React from "react";
+const EnjoyOnYourTV = () => {
+  return (
+    <div className="container mx-auto text-center py-12 sm:py-16 md:py-20 px-4 grid-cols-1 md:grid-cols-2 gap-8 md:grid">
+      <div className="flex flex-col justify-center items-center md:items-start order-2 md:order-1">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-center md:text-start font-bold mb-4 leading-tight">
+          Enjoy on your TV
+        </h2>
+        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-center md:text-start max-w-lg">
+          Watch on Smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray
+          players, and more.
+        </p>
+      </div>
+      <div className="flex justify-center items-center order-1 md:order-2">
+        <Image
+          src={"/enjoytv.png"}
+          alt="TV"
+          width={700}
+          height={350}
+          className="w-full h-auto max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default EnjoyOnYourTV;
