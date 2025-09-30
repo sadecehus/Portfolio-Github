@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Adventure - Supermarket Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .game-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            color: #4a90e2;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .recipe-card {
+            background: #fff3cd;
+            border: 3px solid #ffc107;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .recipe-title {
+            font-size: 1.5em;
+            color: #856404;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .ingredients-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .ingredient-needed {
+            background: #28a745;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .game-area {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .supermarket {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .supermarket h2 {
+            color: #4a90e2;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .shelves {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .item {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border: 3px solid #fff;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            cursor: grab;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            user-select: none;
+            animation: wobble 2s infinite ease-in-out;
+        }
+
+        @keyframes wobble {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(1deg); }
+            75% { transform: rotate(-1deg); }
+        }
+
+        .item:hover {
+            transform: translateY(-10px) scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            animation: bounce 0.6s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(-10px) scale(1.1) rotate(5deg); }
+            50% { transform: translateY(-15px) scale(1.15) rotate(-5deg); }
+        }
+
+        .item:active {
+            cursor: grabbing;
+            transform: scale(0.95);
+        }
+
+        .item-icon {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .item-name {
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            font-size: 0.9em;
+        }
+
+        .shopping-area {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .basket {
+            background: linear-gradient(45deg, #8e44ad, #3498db);
+            border: 3px dashed #fff;
+            border-radius: 20px;
+            min-height: 300px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            animation: glow 3s infinite ease-in-out;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(52, 152, 219, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(142, 68, 173, 0.8); }
+        }
+
+        .basket::before {
+            content: "🛒";
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 2em;
+            opacity: 0.3;
+        }
+
+        .basket h3 {
+            color: white;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .basket-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .basket-item {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .basket-item:hover {
+            background: #ff6b6b;
+            color: white;
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .guess-section {
+            text-align: center;
+        }
+
+        .guess-input {
+            width: 100%;
+            padding: 15px;
+            border: 3px solid #4a90e2;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-family: inherit;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .guess-btn {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        .guess-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateY(-5px) scale(1.1) rotate(0deg); }
+            25% { transform: translateY(-5px) scale(1.1) rotate(2deg); }
+            75% { transform: translateY(-5px) scale(1.1) rotate(-2deg); }
+        }
+
+        .new-recipe-btn {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 15px;
+        }
+
+        .new-recipe-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.1em;
+            animation: messageAppear 0.5s ease-out;
+        }
+
+        @keyframes messageAppear {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #28a745;
+            animation: successPulse 1s ease-in-out;
+        }
+
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #dc3545;
+            animation: errorShake 0.5s ease-in-out;
+        }
+
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .score {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .score h3 {
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+
+        .score-number {
+            font-size: 2em;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .drag-over {
+            background: linear-gradient(45deg, #28a745, #20c997) !important;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .game-area {
+                grid-template-columns: 1fr;
+            }
+            
+            .shelves {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>🛒 Shopping Adventure</h1>
+            <p>Collect ingredients from the recipe card and guess the dish!</p>
+            <div class="language-selector" style="margin-top:12px; display:flex; flex-wrap:wrap; gap:8px; justify-content:center;">
+                <h3 style="flex-basis:100%; text-align:center; margin-bottom:8px;">Select Language:</h3>
+            </div>
+        </div>
+
+        <div class="score">
+            <h3>Score</h3>
+            <div class="score-number" id="score">0</div>
+        </div>
+
+        <div class="recipe-card" id="recipeCard">
+            <div class="recipe-title" id="recipeTitle">Secret Recipe</div>
+            <div class="ingredients-list" id="ingredientsList"></div>
+        </div>
+
+        <div class="game-area">
+            <div class="supermarket">
+                <h2>🏪 Supermarket Shelves</h2>
+                <div class="shelves" id="shelves"></div>
+            </div>
+
+            <div class="shopping-area">
+                <div class="basket" id="basket">
+                    <h3>My Shopping Cart</h3>
+                    <div class="basket-items" id="basketItems"></div>
+                </div>
+
+                <div class="guess-section">
+                    <input type="text" class="guess-input" id="guessInput" placeholder="What dish can be made with these ingredients?">
+                    <button class="guess-btn" id="guessBtn" onclick="checkGuess()">Make a Guess! 🍽️</button>
+                    <button class="new-recipe-btn" id="newRecipeBtn" onclick="newRecipe()">New Recipe 🔄</button>
+                </div>
+
+                <div id="message"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./translations.js"></script>
+    <script>
+        // Items are language-agnostic keys; names shown via translations
+        const items = [
+            {name: "pasta", icon: "🍝"},
+            {name: "tomato", icon: "🍅"},
+            {name: "cheese", icon: "🧀"},
+            {name: "onion", icon: "🧅"},
+            {name: "egg", icon: "🥚"},
+            {name: "milk", icon: "🥛"},
+            {name: "lettuce", icon: "🥬"},
+            {name: "cucumber", icon: "🥒"},
+            {name: "olive oil", icon: "🍾"},
+            {name: "chicken", icon: "🍗"},
+            {name: "carrot", icon: "🥕"},
+            {name: "potato", icon: "🥔"},
+            {name: "dough", icon: "🥖"},
+            {name: "olive", icon: "🫒"},
+            {name: "bread", icon: "🍞"},
+            {name: "flour", icon: "🌾"},
+            {name: "sugar", icon: "🍯"},
+            {name: "apple", icon: "🍎"},
+            {name: "banana", icon: "🍌"},
+            {name: "fish", icon: "🐟"}
+        ];
+
+        let currentRecipe = null;
+        let basket = [];
+        let score = 0;
+        let recipes = [];
+
+        function buildRecipesForLanguage() {
+            recipes = [
+                { id: 'pasta', ingredients: ["pasta", "tomato", "cheese", "onion"] },
+                { id: 'omelet', ingredients: ["egg", "milk", "cheese", "tomato"] },
+                { id: 'salad', ingredients: ["lettuce", "tomato", "cucumber", "olive oil"] },
+                { id: 'soup', ingredients: ["chicken", "carrot", "onion", "potato"] },
+                { id: 'pizza', ingredients: ["dough", "tomato", "cheese", "olive"] },
+                { id: 'sandwich', ingredients: ["bread", "cheese", "tomato", "lettuce"] },
+                { id: 'cake', ingredients: ["flour", "egg", "sugar", "milk"] }
+            ].map(r => ({
+                ...r,
+                name: getRecipeName(r.id),
+                alternatives: getRecipeAlternatives(r.id)
+            }));
+        }
+
+        function initGame() {
+            createShelves();
+            buildRecipesForLanguage();
+            newRecipe();
+            updateUI();
+            if (typeof initLanguageSelector === 'function') initLanguageSelector();
+        }
+
+        function createShelves() {
+            const shelvesContainer = document.getElementById('shelves');
+            shelvesContainer.innerHTML = '';
+
+            items.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'item';
+                itemElement.draggable = true;
+                itemElement.innerHTML = `
+                    <span class="item-icon">${item.icon}</span>
+                    <span class="item-name" data-key="${item.name}">${getItemName(item.name)}</span>
+                `;
+                itemElement.addEventListener('dragstart', handleDragStart);
+                itemElement.addEventListener('click', () => addToBasket(item.name, item.icon));
+                shelvesContainer.appendChild(itemElement);
+            });
+        }
+
+        function handleDragStart(e) {
+            const itemName = e.target.querySelector('.item-name').textContent;
+            const itemIcon = e.target.querySelector('.item-icon').textContent;
+            e.dataTransfer.setData('text/plain', JSON.stringify({name: itemName, icon: itemIcon}));
+        }
+
+        function newRecipe() {
+            currentRecipe = recipes[Math.floor(Math.random() * recipes.length)];
+            basket = [];
+            
+            document.getElementById('recipeTitle').textContent = getText('recipeTitle');
+            
+            const ingredientsList = document.getElementById('ingredientsList');
+            ingredientsList.innerHTML = '';
+            
+            currentRecipe.ingredients.forEach(ingredient => {
+                const span = document.createElement('span');
+                span.className = 'ingredient-needed';
+                span.textContent = getItemName(ingredient);
+                ingredientsList.appendChild(span);
+            });
+
+            updateBasketDisplay();
+            document.getElementById('guessInput').value = '';
+            document.getElementById('message').innerHTML = '';
+        }
+
+        function addToBasket(itemName, itemIcon) {
+            if (!basket.find(item => item.name === itemName)) {
+                basket.push({name: itemName, icon: itemIcon});
+                updateBasketDisplay();
+                
+                // Success effect with confetti
+                showTempMessage(getMessage('itemAdded', { icon: itemIcon, item: getItemName(itemName) }), 'success', 2000);
+                createConfetti();
+            } else {
+                showTempMessage(getMessage('itemAlready', { icon: itemIcon, item: getItemName(itemName) }), 'error', 1500);
+            }
+        }
+
+        function removeFromBasket(itemName) {
+            basket = basket.filter(item => item.name !== itemName);
+            updateBasketDisplay();
+            showTempMessage(getMessage('removed'), 'error', 1000);
+        }
+
+        function updateBasketDisplay() {
+            const basketItems = document.getElementById('basketItems');
+            basketItems.innerHTML = '';
+
+            basket.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'basket-item';
+                itemElement.innerHTML = `${item.icon} ${getItemName(item.name)}`;
+                itemElement.onclick = () => removeFromBasket(item.name);
+                basketItems.appendChild(itemElement);
+            });
+        }
+
+        function checkGuess() {
+            const guess = document.getElementById('guessInput').value.toLowerCase().trim();
+            
+            if (guess === '') {
+                showMessage(getMessage('pleaseWriteGuess'), 'error');
+                return;
+            }
+
+            const isCorrect = currentRecipe.alternatives.some(alt => {
+                const altLower = (typeof alt === 'string' ? alt : '').toLowerCase();
+                return altLower === guess || guess.includes(altLower);
+            });
+
+            if (isCorrect) {
+                const hasAllIngredients = currentRecipe.ingredients.every(ingredient =>
+                    basket.some(basketItem => basketItem.name === ingredient)
+                );
+
+                if (hasAllIngredients) {
+                    score += 10;
+                    showMessage(getMessage('perfectGuess', { recipe: currentRecipe.name }), 'success');
+                    createFireworks();
+                } else {
+                    score += 5;
+                    const missing = currentRecipe.ingredients.filter(ingredient =>
+                        !basket.some(basketItem => basketItem.name === ingredient)
+                    );
+                    const missingLocalized = missing.map(m => getItemName(m)).join(', ');
+                    showMessage(getMessage('goodGuessMissing', { recipe: currentRecipe.name, missing: missingLocalized }), 'success');
+                }
+            } else {
+                showMessage(getMessage('wrongGuess', { recipe: currentRecipe.name }), 'error');
+            }
+
+            document.getElementById('score').textContent = score;
+            
+            setTimeout(() => {
+                if (score >= 50) {
+                    showTempMessage(getMessage('onFire'), 'success', 2000);
+                }
+                newRecipe();
+            }, 4000);
+        }
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = `<div class="message ${type}">${text}</div>`;
+        }
+
+        function showTempMessage(text, type, duration) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = `<div class="message ${type}">${text}</div>`;
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, duration);
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = '-10px';
+                confetti.style.borderRadius = '50%';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.zIndex = '1000';
+                document.body.appendChild(confetti);
+                
+                const animation = confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight + 20}px) rotate(720deg)`, opacity: 0 }
+                ], {
+                    duration: 3000,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                });
+                
+                animation.onfinish = () => confetti.remove();
+            }
+        }
+
+        // Prepare basket for drag and drop
+        document.getElementById('basket').addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
+
+        document.getElementById('basket').addEventListener('dragleave', function(e) {
+            this.classList.remove('drag-over');
+        });
+
+        document.getElementById('basket').addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            
+            try {
+                const itemData = JSON.parse(e.dataTransfer.getData('text/plain'));
+                addToBasket(itemData.name, itemData.icon);
+            } catch (error) {
+                console.error('Drag and drop error:', error);
+            }
+        });
+
+        // Guess with Enter key
+        document.getElementById('guessInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkGuess();
+            }
+        });
+
+        // Rebuild localized data when language changes
+        window.refreshLocalizedData = function() {
+            // Rebuild shelves labels
+            document.querySelectorAll('.item-name').forEach(span => {
+                const key = span.getAttribute('data-key');
+                if (key) span.textContent = getItemName(key);
+            });
+            // Rebuild recipes
+            buildRecipesForLanguage();
+            // Update current recipe title and ingredient labels
+            if (currentRecipe) {
+                if (currentRecipe.id) {
+                    currentRecipe.name = getRecipeName(currentRecipe.id);
+                    currentRecipe.alternatives = getRecipeAlternatives(currentRecipe.id);
+                }
+                document.getElementById('recipeTitle').textContent = getText('recipeTitle');
+                const ingredientsList = document.getElementById('ingredientsList');
+                ingredientsList.innerHTML = '';
+                currentRecipe.ingredients.forEach(ingredient => {
+                    const span = document.createElement('span');
+                    span.className = 'ingredient-needed';
+                    span.textContent = getItemName(ingredient);
+                    ingredientsList.appendChild(span);
+                });
+                updateBasketDisplay();
+            }
+        }
+
+        // Start the game
+        initGame();
+    </script>
+</body>
+</html>

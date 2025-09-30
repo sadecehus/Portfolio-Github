@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color the Verb - Educational Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1 id="game-title">Color the Verb</h1>
+            
+            <!-- Language Selector -->
+            <div class="language-selector">
+                <label for="language" id="language-label">Language:</label>
+                <select id="language" onchange="changeLanguage()">
+                    <option value="en">English</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="lt">Lietuvių</option>
+                    <option value="pl">Polski</option>
+                </select>
+            </div>
+        </header>
+
+        <main class="game-main">
+            <!-- Instructions -->
+            <div class="instructions">
+                <h2 id="instructions-title">Instructions</h2>
+                <p id="instructions-text">Click on the verbs (action words) in the sentences below to color them!</p>
+            </div>
+
+            <!-- Score and Progress -->
+            <div class="game-stats">
+                <div class="score">
+                    <span id="score-label">Score:</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="level">
+                    <span id="level-label">Level:</span>
+                    <span id="level">1</span>
+                </div>
+                <div class="progress">
+                    <span id="progress-label">Progress:</span>
+                    <span id="progress">0/5</span>
+                </div>
+            </div>
+
+            <!-- Game Area -->
+            <div class="game-area">
+                <div class="sentence-container">
+                    <h3 id="sentence-title">Find the verbs in this sentence:</h3>
+                    <div class="sentence" id="current-sentence">
+                        <!-- Sentence will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button id="next-btn" onclick="nextSentence()" disabled>Next Sentence</button>
+                    <button id="reset-btn" onclick="resetLevel()">Reset Level</button>
+                    <button id="hint-btn" onclick="showHint()">Hint</button>
+                </div>
+
+                <!-- Feedback -->
+                <div class="feedback" id="feedback">
+                    <!-- Feedback messages will appear here -->
+                </div>
+            </div>
+
+            <!-- Hint Panel -->
+            <div class="hint-panel" id="hint-panel">
+                <h4 id="hint-title">Hint</h4>
+                <p id="hint-text">Verbs are action words that tell us what someone or something is doing.</p>
+                <button onclick="closeHint()" id="close-hint">Close</button>
+            </div>
+
+            <!-- Completion Modal -->
+            <div class="modal" id="completion-modal">
+                <div class="modal-content">
+                    <h3 id="modal-title">Congratulations!</h3>
+                    <p id="modal-text">You completed all sentences in this level!</p>
+                    <div class="modal-stats">
+                        <p><span id="final-score-label">Final Score:</span> <span id="final-score">0</span></p>
+                        <p><span id="accuracy-label">Accuracy:</span> <span id="accuracy">0%</span></p>
+                    </div>
+                    <div class="modal-buttons">
+                        <button onclick="nextLevel()" id="next-level-btn">Next Level</button>
+                        <button onclick="restartGame()" id="restart-btn">Restart Game</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

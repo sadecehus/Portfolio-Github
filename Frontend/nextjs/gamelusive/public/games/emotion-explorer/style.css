@@ -1,0 +1,743 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: linear-gradient(135deg, #FFB6C1 0%, #E6E6FA 50%, #98FB98 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.game-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.language-selector {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-bottom: 20px;
+}
+
+.language-selector select {
+    background: linear-gradient(135deg, #E6E6FA, #D8BFD8);
+    border: 2px solid #9370DB;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.language-selector select:hover {
+    background: linear-gradient(135deg, #DDA0DD, #DA70D6);
+    box-shadow: 0 3px 10px rgba(147, 112, 219, 0.3);
+}
+
+.language-selector select:focus {
+    border-color: #8A2BE2;
+    box-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+}
+
+.game-header h1 {
+    color: #8A2BE2;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game-header p {
+    color: #666;
+    font-size: 1.2em;
+}
+
+.game-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    padding: 15px;
+    background: linear-gradient(135deg, #F0F8FF, #E6F3FF);
+    border-radius: 15px;
+    border: 2px solid #4169E1;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.stat-label {
+    color: #666;
+}
+
+.stat-value {
+    color: #2E8B57;
+    font-size: 1.2em;
+}
+
+.game-area {
+    position: relative;
+    min-height: 500px;
+}
+
+.game-phase {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.game-phase.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.phase-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.phase-header h2 {
+    color: #8A2BE2;
+    font-size: 1.8em;
+    margin-bottom: 10px;
+}
+
+.phase-header p {
+    color: #666;
+    font-size: 1.1em;
+}
+
+/* Emotion Recognition Phase */
+.emotion-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.emotion-face {
+    font-size: 8em;
+    margin-bottom: 20px;
+    padding: 30px;
+    background: linear-gradient(135deg, #FFF8DC, #F0F8FF);
+    border-radius: 50%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.emotion-face:hover {
+    transform: scale(1.05);
+}
+
+.situation-context {
+    background: #E6F3FF;
+    padding: 15px 25px;
+    border-radius: 20px;
+    border: 2px solid #4169E1;
+    font-size: 1.1em;
+    color: #333;
+    text-align: center;
+    max-width: 400px;
+}
+
+.emotion-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.emotion-btn {
+    background: linear-gradient(135deg, #FFE4E1, #FFF0F5);
+    border: 2px solid #FF69B4;
+    border-radius: 15px;
+    padding: 15px 20px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.emotion-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+    background: linear-gradient(135deg, #FFB6C1, #FFC0CB);
+}
+
+.emotion-btn.correct {
+    background: linear-gradient(135deg, #90EE90, #98FB98);
+    border-color: #32CD32;
+    color: #006400;
+}
+
+.emotion-btn.incorrect {
+    background: linear-gradient(135deg, #FFB6C1, #FFA0B4);
+    border-color: #FF1493;
+    color: #8B0000;
+}
+
+.emotion-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Personal Reflection Phase */
+.situation-card {
+    background: linear-gradient(135deg, #F0F8FF, #E6F3FF);
+    border: 3px solid #4169E1;
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.situation-image {
+    font-size: 5em;
+    margin-bottom: 20px;
+}
+
+.situation-description {
+    font-size: 1.3em;
+    color: #333;
+    line-height: 1.5;
+    font-weight: bold;
+}
+
+.reflection-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.reflection-btn {
+    background: linear-gradient(135deg, #E6E6FA, #D8BFD8);
+    border: 2px solid #9370DB;
+    border-radius: 15px;
+    padding: 15px 10px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.reflection-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(147, 112, 219, 0.3);
+    background: linear-gradient(135deg, #DDA0DD, #DA70D6);
+}
+
+.reflection-btn.selected {
+    background: linear-gradient(135deg, #9370DB, #8A2BE2);
+    color: white;
+    border-color: #6A5ACD;
+}
+
+.personal-input {
+    background: #F8F9FA;
+    padding: 25px;
+    border-radius: 15px;
+    border: 2px solid #DDD;
+}
+
+.personal-input h3 {
+    color: #8A2BE2;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.personal-input textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 15px;
+    border: 2px solid #DDD;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1em;
+    resize: vertical;
+    margin-bottom: 15px;
+}
+
+.personal-input textarea:focus {
+    outline: none;
+    border-color: #8A2BE2;
+    box-shadow: 0 0 10px rgba(138, 43, 226, 0.2);
+}
+
+.share-btn {
+    background: linear-gradient(135deg, #32CD32, #228B22);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 20px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(50, 205, 50, 0.3);
+}
+
+/* Scenario Phase */
+.scenario-story {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: linear-gradient(135deg, #FFF8DC, #F5F5DC);
+    padding: 25px;
+    border-radius: 20px;
+    border: 3px solid #DAA520;
+    margin-bottom: 30px;
+}
+
+.scenario-character {
+    font-size: 4em;
+    flex-shrink: 0;
+}
+
+.scenario-text {
+    font-size: 1.2em;
+    color: #333;
+    line-height: 1.5;
+    font-weight: bold;
+}
+
+.scenario-question h3 {
+    color: #8A2BE2;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+    text-align: center;
+}
+
+.scenario-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.scenario-btn {
+    background: linear-gradient(135deg, #FFE4B5, #FFDAB9);
+    border: 2px solid #DEB887;
+    border-radius: 15px;
+    padding: 15px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.scenario-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(222, 184, 135, 0.3);
+    background: linear-gradient(135deg, #F4A460, #CD853F);
+}
+
+.coping-strategies {
+    background: #E8F5E8;
+    padding: 25px;
+    border-radius: 15px;
+    border: 2px solid #90EE90;
+    display: none;
+}
+
+.coping-strategies.active {
+    display: block;
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.coping-strategies h3 {
+    color: #2E8B57;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+.strategy-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.strategy-btn {
+    background: linear-gradient(135deg, #98FB98, #90EE90);
+    border: 2px solid #32CD32;
+    border-radius: 15px;
+    padding: 15px;
+    font-size: 0.95em;
+    font-weight: bold;
+    color: #006400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.strategy-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(50, 205, 50, 0.3);
+    background: linear-gradient(135deg, #7CFC00, #32CD32);
+}
+
+/* Progress Bar */
+.game-progress {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 10px;
+    background: #E0E0E0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #32CD32, #228B22);
+    border-radius: 5px;
+    transition: width 0.5s ease;
+    width: 0%;
+}
+
+.progress-text {
+    font-weight: bold;
+    color: #2E8B57;
+}
+
+/* Modals */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 25px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Feedback Modal */
+.feedback-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.feedback-avatar {
+    font-size: 3em;
+    flex-shrink: 0;
+}
+
+.feedback-bubble {
+    background: #F0F8FF;
+    padding: 20px;
+    border-radius: 20px;
+    border: 3px solid #4169E1;
+    position: relative;
+    flex: 1;
+}
+
+.feedback-bubble::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 25px;
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 15px solid #4169E1;
+}
+
+.feedback-bubble::after {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 25px;
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 15px solid #F0F8FF;
+}
+
+.feedback-bubble h3 {
+    color: #2E8B57;
+    margin-bottom: 10px;
+}
+
+.feedback-bubble p {
+    margin-bottom: 15px;
+    line-height: 1.4;
+    color: #333;
+}
+
+.feedback-tip {
+    background: #FFF9C4;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border-left: 4px solid #FFD700;
+    font-style: italic;
+    color: #666;
+}
+
+/* Results Modal */
+.results-header {
+    margin-bottom: 25px;
+}
+
+.results-header h2 {
+    color: #8A2BE2;
+    margin-bottom: 10px;
+}
+
+.results-score {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #2E8B57;
+}
+
+.emotion-summary {
+    background: #F8F9FA;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.emotion-summary h3 {
+    color: #8A2BE2;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.learned-emotions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+}
+
+.learned-emotion {
+    background: linear-gradient(135deg, #E6E6FA, #D8BFD8);
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.encouragement {
+    margin-bottom: 25px;
+}
+
+.encouragement p {
+    font-size: 1.2em;
+    color: #666;
+    font-style: italic;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.action-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 20px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn.primary {
+    background: linear-gradient(135deg, #32CD32, #228B22);
+    color: white;
+}
+
+.action-btn.secondary {
+    background: linear-gradient(135deg, #4169E1, #1E90FF);
+    color: white;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.continue-btn {
+    background: linear-gradient(135deg, #32CD32, #228B22);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 20px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.continue-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(50, 205, 50, 0.3);
+}
+
+/* Game Controls */
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.control-btn {
+    background: linear-gradient(135deg, #F0F0F0, #E0E0E0);
+    border: 2px solid #CCC;
+    border-radius: 15px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #E0E0E0, #D0D0D0);
+}
+
+/* Instructions */
+.instructions {
+    background: #F0F8FF;
+    padding: 25px;
+    border-radius: 15px;
+    border: 2px solid #4169E1;
+    margin-top: 30px;
+}
+
+.instructions h3 {
+    color: #8A2BE2;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+}
+
+.instructions ul {
+    list-style: none;
+    padding: 0;
+}
+
+.instructions li {
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #333;
+    line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 20px;
+    }
+    
+    .language-selector {
+        position: static;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .language-selector select {
+        width: 200px;
+    }
+    
+    .game-stats {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .emotion-face {
+        font-size: 6em;
+    }
+    
+    .emotion-options {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .reflection-options {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .scenario-story {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .feedback-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+}

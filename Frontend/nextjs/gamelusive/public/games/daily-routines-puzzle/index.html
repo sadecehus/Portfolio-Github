@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Günlük Rutin Puzzle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <div class="language-selector">
+                <label for="language-select">🌐</label>
+                <select id="language-select">
+                    <option value="en" selected>English</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="pl">Polski</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="lt">Lietuvių</option>
+                </select>
+            </div>
+            <h1 data-translate="game-title">🌅 Daily Routines Puzzle</h1>
+            <p data-translate="game-subtitle">Put the daily routines in the correct order!</p>
+        </header>
+
+        <div class="game-board">
+            <div class="instructions">
+                <h3 data-translate="how-to-play">How to Play:</h3>
+                <p data-translate="instructions-text">Drag and drop the cards below into the correct order according to the flow of the day.</p>
+            </div>
+
+            <div class="sequence-area">
+                <h3 data-translate="correct-order">Correct Order:</h3>
+                <div class="drop-zone" id="sequence-container">
+                    <div class="time-slot" data-order="1">
+                        <span class="time">06:30</span>
+                        <div class="drop-area" data-position="1" data-translate="activity-slot">1st Activity</div>
+                    </div>
+                    <div class="time-slot" data-order="2">
+                        <span class="time">07:00</span>
+                        <div class="drop-area" data-position="2" data-translate="activity-slot">2nd Activity</div>
+                    </div>
+                    <div class="time-slot" data-order="3">
+                        <span class="time">07:30</span>
+                        <div class="drop-area" data-position="3" data-translate="activity-slot">3rd Activity</div>
+                    </div>
+                    <div class="time-slot" data-order="4">
+                        <span class="time">08:00</span>
+                        <div class="drop-area" data-position="4" data-translate="activity-slot">4th Activity</div>
+                    </div>
+                    <div class="time-slot" data-order="5">
+                        <span class="time">08:30</span>
+                        <div class="drop-area" data-position="5" data-translate="activity-slot">5th Activity</div>
+                    </div>
+                    <div class="time-slot" data-order="6">
+                        <span class="time">15:30</span>
+                        <div class="drop-area" data-position="6" data-translate="activity-slot">6th Activity</div>
+                    </div>
+                    <div class="time-slot" data-order="7">
+                        <span class="time">19:00</span>
+                        <div class="drop-area" data-position="7" data-translate="activity-slot">7th Activity</div>
+                    </div>
+                    <div class="time-slot" data-order="8">
+                        <span class="time">21:00</span>
+                        <div class="drop-area" data-position="8" data-translate="activity-slot">8th Activity</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-area">
+                <h3 data-translate="daily-activities">Daily Activities:</h3>
+                <div class="cards-container" id="cards-container">
+                    <div class="routine-card" draggable="true" data-correct-order="1" data-id="wake-up">
+                        <div class="card-icon">🛏️</div>
+                        <div class="card-text" data-translate="wake-up">Wake Up</div>
+                    </div>
+                    <div class="routine-card" draggable="true" data-correct-order="2" data-id="brush-teeth">
+                        <div class="card-icon">🦷</div>
+                        <div class="card-text" data-translate="brush-teeth">Brush Teeth</div>
+                    </div>
+                    <div class="routine-card" draggable="true" data-correct-order="3" data-id="breakfast">
+                        <div class="card-icon">🥞</div>
+                        <div class="card-text" data-translate="breakfast">Have Breakfast</div>
+                    </div>
+                    <div class="routine-card" draggable="true" data-correct-order="4" data-id="get-dressed">
+                        <div class="card-icon">👕</div>
+                        <div class="card-text" data-translate="get-dressed">Get Dressed</div>
+                    </div>
+                    <div class="routine-card" draggable="true" data-correct-order="5" data-id="go-school">
+                        <div class="card-icon">🎒</div>
+                        <div class="card-text" data-translate="go-school">Go to School</div>
+                    </div>
+                    <div class="routine-card" draggable="true" data-correct-order="6" data-id="come-home">
+                        <div class="card-icon">🏠</div>
+                        <div class="card-text" data-translate="come-home">Come Home</div>
+                    </div>
+                    <div class="routine-card" draggable="true" data-correct-order="7" data-id="dinner">
+                        <div class="card-icon">🍽️</div>
+                        <div class="card-text" data-translate="dinner">Have Dinner</div>
+                    </div>
+                    <div class="routine-card" draggable="true" data-correct-order="8" data-id="sleep">
+                        <div class="card-icon">🌙</div>
+                        <div class="card-text" data-translate="sleep">Go to Sleep</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-controls">
+            <button id="check-btn" class="btn primary" data-translate="check-btn">Check Answer</button>
+            <button id="reset-btn" class="btn secondary" data-translate="reset-btn">Reset Game</button>
+            <button id="hint-btn" class="btn hint" data-translate="hint-btn">Hint</button>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <div class="score-board">
+            <div class="score"><span data-translate="score">Score</span>: <span id="score">0</span></div>
+            <div class="attempts"><span data-translate="attempts">Attempts</span>: <span id="attempts">0</span></div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="success-modal">
+        <div class="modal-content">
+            <h2 data-translate="congratulations">🎉 Congratulations!</h2>
+            <p data-translate="success-message">You put the daily routines in the correct order!</p>
+            <div class="modal-score">
+                <p><span data-translate="your-score">Your Score</span>: <span id="final-score"></span></p>
+                <p><span data-translate="attempts-count">Number of Attempts</span>: <span id="final-attempts"></span></p>
+            </div>
+            <button id="play-again-btn" class="btn primary" data-translate="play-again">Play Again</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

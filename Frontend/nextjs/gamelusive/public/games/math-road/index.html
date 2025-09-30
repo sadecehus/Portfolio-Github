@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Road - Matematik Yolu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <div class="title-section">
+                <h1 id="gameTitle">Matematik Yolu</h1>
+                <div class="language-selector">
+                    <select id="languageSelect" onchange="changeLanguage()">
+                        <option value="en">🇺🇸 English</option>
+                        <option value="tr">🇹🇷 Türkçe</option>
+                        <option value="pl">🇵🇱 Polski</option>
+                        <option value="nl">🇳🇱 Nederlands</option>
+                        <option value="lt">🇱🇹 Lietuvių</option>
+                    </select>
+                </div>
+            </div>
+            <div class="stats">
+                <div class="lives">
+                    <span>❤️</span>
+                    <span id="livesCount">3</span>
+                </div>
+                <div class="score">
+                    <span>🏆</span>
+                    <span id="scoreCount">0</span>
+                </div>
+                <div class="step">
+                    <span>👣</span>
+                    <span id="stepCount">0</span>
+                </div>
+                <div class="level">
+                    <span>📊</span>
+                    <span id="levelCount">1</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-area" id="gameArea">
+            <div class="character" id="character">🧙‍♂️</div>
+            <div class="road" id="road">
+                <div class="steps" id="steps"></div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+        </div>
+
+        <div class="question-panel" id="questionPanel" style="display: none;">
+            <div class="question-box">
+                <h2 id="questionTitle">Matematik Sorusu</h2>
+                <div class="level-info" id="levelInfo">Seviye 1: Toplama ve Çıkarma</div>
+                <div class="question" id="questionText"></div>
+                <div class="answer-options" id="answerOptions"></div>
+                <div class="timer">
+                    <div class="timer-bar" id="timerBar"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-over" id="gameOver" style="display: none;">
+            <h2 id="gameOverTitle">Oyun Bitti!</h2>
+            <p><span id="finalScoreLabel">Final Skorunuz:</span> <span id="finalScore">0</span></p>
+            <p><span id="finalStepsLabel">Attığınız Adım:</span> <span id="finalSteps">0</span></p>
+            <p><span id="finalLevelLabel">Ulaştığınız Seviye:</span> <span id="finalLevel">1</span></p>
+            <button onclick="restartGame()" id="restartBtn">Tekrar Oyna</button>
+        </div>
+
+        <div class="controls">
+            <button onclick="startGame()" id="startBtn">Oyunu Başlat</button>
+            <button onclick="pauseGame()" id="pauseBtn" style="display: none;">Duraklat</button>
+        </div>
+
+        <div class="instructions">
+            <h3 id="instructionsTitle">Nasıl Oynanır?</h3>
+            <ul id="instructionsList">
+                <li>Karakteriniz adım adım ilerler</li>
+                <li>Her adımda bir matematik sorusu çıkar</li>
+                <li>Doğru cevap verirseniz bir sonraki adıma geçersiniz</li>
+                <li>Yanlış cevap verirseniz bir can kaybedersiniz</li>
+                <li>Her adımda sorular daha da zorlaşır</li>
+                <li>3 can kaybettikten sonra oyun biter</li>
+            </ul>
+            
+            <div class="level-descriptions">
+                <h4 id="levelsTitle">Seviye Açıklamaları:</h4>
+                <div class="level-desc">
+                    <strong id="level1Title">Seviye 1:</strong> 
+                    <span id="level1Desc">Toplama ve Çıkarma İşlemleri</span>
+                </div>
+                <div class="level-desc">
+                    <strong id="level2Title">Seviye 2:</strong> 
+                    <span id="level2Desc">Çarpma ve Bölme İşlemleri</span>
+                </div>
+                <div class="level-desc">
+                    <strong id="level3Title">Seviye 3:</strong> 
+                    <span id="level3Desc">Üslü Sayılar ve Karekök</span>
+                </div>
+                <div class="level-desc">
+                    <strong id="level4Title">Seviye 4:</strong> 
+                    <span id="level4Desc">Basit Denklemler (x bulma)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

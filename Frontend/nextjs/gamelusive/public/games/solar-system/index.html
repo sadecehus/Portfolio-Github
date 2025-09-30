@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System Settlers</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Language Selector -->
+   
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="rocket-loader">
+                <div class="rocket">🚀</div>
+                <div class="exhaust"></div>
+            </div>
+            <h1 data-text="gameTitle">Solar System Settlers</h1>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p data-text="loadingText">Preparing for launch...</p>
+        </div>
+    </div>
+
+    <!-- Main Menu -->
+    <div id="main-menu" class="main-menu hidden">
+        <div class="stars"></div>
+        <div class="menu-content">
+            <h1 class="game-title" data-text="gameTitle">Solar System Settlers</h1>
+            <p class="game-subtitle" data-text="gameSubtitle">Explore, Learn, and Colonize</p>
+            
+            <div class="menu-buttons">
+                <button id="new-game-btn" class="menu-btn primary" data-text="newGame">New Mission</button>
+                <button id="load-game-btn" class="menu-btn secondary" data-text="loadGame">Load Mission</button>
+                <button id="tutorial-btn" class="menu-btn secondary" data-text="tutorial">Training</button>
+                <button id="achievements-btn" class="menu-btn secondary" data-text="achievements">Achievements</button>
+            </div>
+             <div id="language-selector" class="language-selector">
+        <select id="language-select">
+            <option value="en">🇺🇸 English</option>
+            <option value="tr">🇹🇷 Türkçe</option>
+            <option value="pl">🇵🇱 Polski</option>
+            <option value="lt">🇱🇹 Lietuvių</option>
+            <option value="nl">🇳🇱 Nederlands</option>
+        </select>
+    </div>
+        </div>
+    </div>
+
+    <!-- Game Interface -->
+    <div id="game-interface" class="game-interface hidden">
+        <!-- Top HUD -->
+        <div class="top-hud">
+            <div class="resources">
+                <div class="resource-item">
+                    <span class="resource-icon">💨</span>
+                    <span id="oxygen-count">1000</span>
+                    <span class="resource-label" data-text="oxygen">Oxygen</span>
+                </div>
+                <div class="resource-item">
+                    <span class="resource-icon">🥘</span>
+                    <span id="food-count">800</span>
+                    <span class="resource-label" data-text="food">Food</span>
+                </div>
+                <div class="resource-item">
+                    <span class="resource-icon">⚡</span>
+                    <span id="energy-count">1200</span>
+                    <span class="resource-label" data-text="energy">Energy</span>
+                </div>
+                <div class="resource-item">
+                    <span class="resource-icon">💎</span>
+                    <span id="materials-count">50</span>
+                    <span class="resource-label" data-text="materials">Materials</span>
+                </div>
+                <div class="resource-item">
+                    <span class="resource-icon">🔬</span>
+                    <span id="research-count">10</span>
+                    <span class="resource-label" data-text="research">Research</span>
+                </div>
+            </div>
+            <div class="mission-info">
+                <h3 id="current-mission" data-text="currentMission">Current Mission: Launch Preparation</h3>
+                <div class="mission-progress">
+                    <div class="progress-bar">
+                        <div id="mission-progress-fill" class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="game-controls">
+                <button id="pause-btn" class="control-btn">⏸️</button>
+                <button id="speed-btn" class="control-btn">⏩</button>
+                <button id="save-btn" class="control-btn">💾</button>
+                <button id="menu-btn" class="control-btn">🏠</button>
+            </div>
+        </div>
+
+        <!-- Solar System View -->
+        <div id="solar-system-view" class="solar-system-view">
+            <!-- Planet Navigation Menu -->
+            <div class="planet-navigation">
+                <h3>🌌 Planets</h3>
+                <div class="planet-list">
+                    <div class="planet-nav-item" data-planet="mercury">
+                        <div class="planet-icon mercury-icon">☿</div>
+                        <div class="planet-nav-info">
+                            <span class="planet-nav-name">Mercury</span>
+                            <span class="planet-nav-status" id="mercury-status">Not Explored</span>
+                        </div>
+                    </div>
+                    <div class="planet-nav-item" data-planet="venus">
+                        <div class="planet-icon venus-icon">♀</div>
+                        <div class="planet-nav-info">
+                            <span class="planet-nav-name">Venus</span>
+                            <span class="planet-nav-status" id="venus-status">Not Explored</span>
+                        </div>
+                    </div>
+                    <div class="planet-nav-item" data-planet="earth">
+                        <div class="planet-icon earth-icon">🌍</div>
+                        <div class="planet-nav-info">
+                            <span class="planet-nav-name">Earth</span>
+                            <span class="planet-nav-status" id="earth-status">Not Explored</span>
+                        </div>
+                    </div>
+                    <div class="planet-nav-item" data-planet="mars">
+                        <div class="planet-icon mars-icon">♂</div>
+                        <div class="planet-nav-info">
+                            <span class="planet-nav-name">Mars</span>
+                            <span class="planet-nav-status" id="mars-status">Not Explored</span>
+                        </div>
+                    </div>
+                    <div class="planet-nav-item" data-planet="jupiter">
+                        <div class="planet-icon jupiter-icon">♃</div>
+                        <div class="planet-nav-info">
+                            <span class="planet-nav-name">Jupiter</span>
+                            <span class="planet-nav-status" id="jupiter-status">Not Explored</span>
+                        </div>
+                    </div>
+                    <div class="planet-nav-item" data-planet="saturn">
+                        <div class="planet-icon saturn-icon">♄</div>
+                        <div class="planet-nav-info">
+                            <span class="planet-nav-name">Saturn</span>
+                            <span class="planet-nav-status" id="saturn-status">Not Explored</span>
+                        </div>
+                    </div>
+                    <div class="planet-nav-item" data-planet="uranus">
+                        <div class="planet-icon uranus-icon">♅</div>
+                        <div class="planet-nav-info">
+                            <span class="planet-nav-name">Uranus</span>
+                            <span class="planet-nav-status" id="uranus-status">Not Explored</span>
+                        </div>
+                    </div>
+                    <div class="planet-nav-item" data-planet="neptune">
+                        <div class="planet-icon neptune-icon">♆</div>
+                        <div class="planet-nav-info">
+                            <span class="planet-nav-name">Neptune</span>
+                            <span class="planet-nav-status" id="neptune-status">Not Explored</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="solar-system-container">
+                <div class="sun">
+                    <div class="sun-core"></div>
+                    <div class="sun-glow"></div>
+                </div>
+                
+                <!-- Planets with orbits -->
+                <div class="orbit mercury-orbit">
+                    <div class="planet mercury" data-planet="mercury">
+                        <div class="planet-surface"></div>
+                        <div class="planet-info">Mercury</div>
+                    </div>
+                </div>
+                
+                <div class="orbit venus-orbit">
+                    <div class="planet venus" data-planet="venus">
+                        <div class="planet-surface"></div>
+                        <div class="planet-info">Venus</div>
+                    </div>
+                </div>
+                
+                <div class="orbit earth-orbit">
+                    <div class="planet earth" data-planet="earth">
+                        <div class="planet-surface"></div>
+                        <div class="planet-info">Earth</div>
+                        <div class="moon-orbit">
+                            <div class="moon"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="orbit mars-orbit">
+                    <div class="planet mars" data-planet="mars">
+                        <div class="planet-surface"></div>
+                        <div class="planet-info">Mars</div>
+                    </div>
+                </div>
+                
+                <div class="orbit jupiter-orbit">
+                    <div class="planet jupiter" data-planet="jupiter">
+                        <div class="planet-surface"></div>
+                        <div class="planet-info">Jupiter</div>
+                    </div>
+                </div>
+                
+                <div class="orbit saturn-orbit">
+                    <div class="planet saturn" data-planet="saturn">
+                        <div class="planet-surface"></div>
+                        <div class="planet-info">Saturn</div>
+                        <div class="saturn-rings"></div>
+                    </div>
+                </div>
+                
+                <div class="orbit uranus-orbit">
+                    <div class="planet uranus" data-planet="uranus">
+                        <div class="planet-surface"></div>
+                        <div class="planet-info">Uranus</div>
+                    </div>
+                </div>
+                
+                <div class="orbit neptune-orbit">
+                    <div class="planet neptune" data-planet="neptune">
+                        <div class="planet-surface"></div>
+                        <div class="planet-info">Neptune</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Zoom Controls -->
+            <div class="zoom-controls">
+                <button id="zoom-in" class="zoom-btn">🔍+</button>
+                <button id="zoom-out" class="zoom-btn">🔍-</button>
+                <button id="reset-view" class="zoom-btn">Reset View</button>
+            </div>
+        </div>
+
+        <!-- Planet Detail View -->
+        <div id="planet-detail-view" class="planet-detail-view hidden">
+            <div class="planet-detail-header">
+                <h2 id="planet-name">Mars</h2>
+                <button id="close-planet-view" class="close-btn">✖</button>
+            </div>
+            
+            <div class="planet-detail-content">
+                <div class="planet-visual">
+                    <div id="planet-render" class="planet-render"></div>
+                    <div class="planet-stats">
+                        <div class="stat-item">
+                            <span class="stat-label" data-text="diameter">Diameter:</span>
+                            <span id="planet-diameter">6,779 km</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label" data-text="gravity">Gravity:</span>
+                            <span id="planet-gravity">3.7 m/s²</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label" data-text="temperature">Temperature:</span>
+                            <span id="planet-temperature">-80°C to 20°C</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label" data-text="atmosphere">Atmosphere:</span>
+                            <span id="planet-atmosphere">96% CO₂, 2% Argon</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="colony-interface">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="build" data-text="build">Build</button>
+                        <button class="tab-btn" data-tab="research" data-text="research">Research</button>
+                        <button class="tab-btn" data-tab="missions" data-text="missions">Missions</button>
+                    </div>
+                    
+                    <div id="build-tab" class="tab-content active">
+                        <div class="building-grid">
+                            <div class="building-card" data-building="habitat">
+                                <div class="building-icon">🏠</div>
+                                <h4 data-text="habitat">Habitat</h4>
+                                <p class="building-cost">💨100 ⚡50 💎10</p>
+                                <button class="build-btn" data-text="build">Build</button>
+                            </div>
+                            <div class="building-card" data-building="lab">
+                                <div class="building-icon">🔬</div>
+                                <h4 data-text="laboratory">Laboratory</h4>
+                                <p class="building-cost">⚡80 💎15 🔬5</p>
+                                <button class="build-btn" data-text="build">Build</button>
+                            </div>
+                            <div class="building-card" data-building="farm">
+                                <div class="building-icon">🌱</div>
+                                <h4 data-text="farm">Farm</h4>
+                                <p class="building-cost">💨50 ⚡30 🥘20</p>
+                                <button class="build-btn" data-text="build">Build</button>
+                            </div>
+                            <div class="building-card" data-building="factory">
+                                <div class="building-icon">🏭</div>
+                                <h4 data-text="factory">Factory</h4>
+                                <p class="building-cost">⚡100 💎25 🔬10</p>
+                                <button class="build-btn" data-text="build">Build</button>
+                            </div>
+                            <div class="building-card" data-building="solar">
+                                <div class="building-icon">☀️</div>
+                                <h4 data-text="solarPanel">Solar Panel</h4>
+                                <p class="building-cost">💎20 🔬5</p>
+                                <button class="build-btn" data-text="build">Build</button>
+                            </div>
+                            <div class="building-card" data-building="mine">
+                                <div class="building-icon">⛏️</div>
+                                <h4 data-text="mine">Mine</h4>
+                                <p class="building-cost">⚡60 💎30</p>
+                                <button class="build-btn" data-text="build">Build</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="research-tab" class="tab-content">
+                        <div class="research-tree">
+                            <div class="research-node available" data-research="life-support">
+                                <div class="research-icon">💨</div>
+                                <h4 data-text="lifeSupport">Life Support</h4>
+                                <p class="research-cost">🔬20</p>
+                                <button class="research-btn" data-text="research">Research</button>
+                            </div>
+                            <div class="research-node locked" data-research="terraforming">
+                                <div class="research-icon">🌍</div>
+                                <h4 data-text="terraforming">Terraforming</h4>
+                                <p class="research-cost">🔬100</p>
+                                <button class="research-btn disabled" data-text="locked">Locked</button>
+                            </div>
+                            <div class="research-node locked" data-research="fusion-power">
+                                <div class="research-icon">⚛️</div>
+                                <h4 data-text="fusionPower">Fusion Power</h4>
+                                <p class="research-cost">🔬150</p>
+                                <button class="research-btn disabled" data-text="locked">Locked</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="missions-tab" class="tab-content">
+                        <div class="mission-list">
+                            <div class="mission-card active" data-mission="first-colony">
+                                <h4 data-text="firstColony">Establish First Colony</h4>
+                                <p data-text="firstColonyDesc">Build your first habitat and laboratory</p>
+                                <div class="mission-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 25%"></div>
+                                    </div>
+                                    <span>1/4</span>
+                                </div>
+                                <div class="mission-rewards">
+                                    <span>🏆 +100 XP</span>
+                                    <span>💎 +50 Materials</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Educational Quiz Modal -->
+        <div id="quiz-modal" class="quiz-modal hidden">
+            <div class="quiz-content">
+                <div class="quiz-header">
+                    <h3 data-text="spaceQuiz">Space Knowledge Quiz</h3>
+                    <button id="close-quiz" class="close-btn">✖</button>
+                </div>
+                <div class="quiz-body">
+                    <div class="question-container">
+                        <p id="quiz-question">What is the approximate gravity on Mars compared to Earth?</p>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-answer="a">50% of Earth's gravity</button>
+                            <button class="quiz-option" data-answer="b">38% of Earth's gravity</button>
+                            <button class="quiz-option" data-answer="c">75% of Earth's gravity</button>
+                            <button class="quiz-option" data-answer="d">25% of Earth's gravity</button>
+                        </div>
+                    </div>
+                    <div class="quiz-result hidden">
+                        <h4 id="quiz-result-title">Correct!</h4>
+                        <p id="quiz-explanation">Mars has about 38% of Earth's gravity due to its smaller mass and size.</p>
+                        <button id="quiz-continue" class="quiz-btn" data-text="continue">Continue</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievement Notification -->
+        <div id="achievement-notification" class="achievement-notification hidden">
+            <div class="achievement-content">
+                <div class="achievement-icon">🏆</div>
+                <div class="achievement-text">
+                    <h4 data-text="achievementUnlocked">Achievement Unlocked!</h4>
+                    <p id="achievement-title">First Steps</p>
+                    <p id="achievement-description">Built your first habitat on Mars</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Educational Info Panel -->
+    <div id="info-panel" class="info-panel hidden">
+        <div class="info-header">
+            <h3 id="info-title" data-text="planetInfo">Planet Information</h3>
+            <button id="close-info" class="close-btn">✖</button>
+        </div>
+        <div class="info-content">
+            <div id="info-text"></div>
+            <div class="info-images">
+                <div class="info-image-placeholder">
+                    <p data-text="nasaImage">NASA Image would appear here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/translations.js"></script>
+    <script src="js/planets.js"></script>
+    <script src="js/simple-game.js"></script>
+    <script>
+        // Initialize simple game
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Starting Simple Solar Game...');
+            
+            // Show loading briefly then menu
+            setTimeout(() => {
+                document.getElementById('loading-screen').classList.add('hidden');
+                document.getElementById('main-menu').classList.remove('hidden');
+                
+                // Initialize game
+                game = new SimpleSolarGame();
+                window.game = game; // Make globally accessible
+                
+                console.log('✅ Simple Solar Game ready!');
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

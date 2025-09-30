@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Wizard - Educational Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1 id="game-title">Weather Wizard</h1>
+            
+            <!-- Language Selector -->
+            <div class="language-selector">
+                <label for="language" id="language-label">Language:</label>
+                <select id="language" onchange="changeLanguage()">
+                    <option value="en">English</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="lt">Lietuvių</option>
+                    <option value="pl">Polski</option>
+                </select>
+            </div>
+        </header>
+
+        <main class="game-main">
+            <!-- Instructions -->
+            <div class="instructions">
+                <h2 id="instructions-title">Instructions</h2>
+                <p id="instructions-text">Look at the weather and drag the right clothes to dress up for that weather!</p>
+            </div>
+
+            <!-- Score and Progress -->
+            <div class="game-stats">
+                <div class="score">
+                    <span id="score-label">Score:</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="level">
+                    <span id="level-label">Level:</span>
+                    <span id="level">1</span>
+                </div>
+                <div class="streak">
+                    <span id="streak-label">Streak:</span>
+                    <span id="streak">0</span>
+                </div>
+            </div>
+
+            <!-- Game Area -->
+            <div class="game-area">
+                <!-- Weather Display -->
+                <div class="weather-section">
+                    <h3 id="weather-title">Today's Weather</h3>
+                    <div class="weather-display">
+                        <div class="weather-icon" id="weather-icon">
+                            <!-- Weather icon will be populated by JavaScript -->
+                        </div>
+                        <div class="weather-info">
+                            <div class="weather-name" id="weather-name">Sunny</div>
+                            <div class="weather-temp" id="weather-temp">25°C</div>
+                            <div class="weather-description" id="weather-description">Perfect for outdoor activities!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Character Display -->
+                <div class="character-section">
+                    <h3 id="character-title">Dress Me Up!</h3>
+                    <div class="character-container">
+                        <div class="character" id="character">
+                            <div class="character-base">👤</div>
+                            <div class="character-outfit" id="character-outfit">
+                                <!-- Outfit items will be placed here -->
+                            </div>
+                        </div>
+                        <div class="drop-zones">
+                            <div class="drop-zone" id="head-zone" data-type="head">
+                                <span class="zone-label" id="head-label">Head</span>
+                            </div>
+                            <div class="drop-zone" id="body-zone" data-type="body">
+                                <span class="zone-label" id="body-label">Body</span>
+                            </div>
+                            <div class="drop-zone" id="feet-zone" data-type="feet">
+                                <span class="zone-label" id="feet-label">Feet</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clothing Options -->
+                <div class="clothing-section">
+                    <h3 id="clothing-title">Choose Clothes</h3>
+                    <div class="clothing-container" id="clothing-container">
+                        <!-- Clothing items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button id="check-btn" onclick="checkOutfit()" disabled>Check Outfit</button>
+                <button id="clear-btn" onclick="clearOutfit()">Clear All</button>
+                <button id="next-btn" onclick="nextWeather()" disabled>Next Weather</button>
+                <button id="hint-btn" onclick="showHint()">Hint</button>
+            </div>
+
+            <!-- Feedback -->
+            <div class="feedback" id="feedback">
+                <!-- Feedback messages will appear here -->
+            </div>
+
+            <!-- Hint Panel -->
+            <div class="hint-panel" id="hint-panel">
+                <h4 id="hint-title">Weather Tips</h4>
+                <div class="hint-content" id="hint-content">
+                    <p id="hint-text">Choose clothes that match the weather!</p>
+                </div>
+                <button onclick="closeHint()" id="close-hint">Close</button>
+            </div>
+
+            <!-- Completion Modal -->
+            <div class="modal" id="completion-modal">
+                <div class="modal-content">
+                    <h3 id="modal-title">Excellent!</h3>
+                    <p id="modal-text">You've mastered this level!</p>
+                    <div class="modal-stats">
+                        <p><span id="final-score-label">Final Score:</span> <span id="final-score">0</span></p>
+                        <p><span id="accuracy-label">Accuracy:</span> <span id="accuracy">0%</span></p>
+                        <p><span id="best-streak-label">Best Streak:</span> <span id="best-streak">0</span></p>
+                    </div>
+                    <div class="modal-buttons">
+                        <button onclick="nextLevel()" id="next-level-btn">Next Level</button>
+                        <button onclick="restartGame()" id="restart-btn">Play Again</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Weather Effects -->
+        <div class="weather-effects" id="weather-effects">
+            <!-- Animated weather effects will be added here -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

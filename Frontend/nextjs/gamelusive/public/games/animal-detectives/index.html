@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animal Detectives - Memory Game for Primary School</title>
+  <script src="translations.js"></script>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #e9f7ef;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      color: #333;
+    }
+    
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    
+    .game-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .language-selector {
+      background-color: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .language-selector h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    
+    .language-btn {
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 2px 5px;
+      transition: background-color 0.3s;
+    }
+    
+    .language-btn:hover {
+      background-color: #1976D2;
+    }
+    
+    .language-btn.active {
+      background-color: #1976D2;
+    }
+    
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .card {
+      height: 140px;
+      background-color: #8BC34A;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: white;
+      transition: transform 0.3s, background-color 0.3s;
+      perspective: 1000px;
+    }
+    
+    .card:hover {
+      transform: scale(1.03);
+    }
+    
+    .card.flipped {
+      background-color: #FFEB3B;
+      color: #333;
+    }
+    
+    .card.matched {
+      background-color: #FFC107;
+      color: #333;
+      cursor: default;
+    }
+    
+    .controls {
+      margin: 20px 0;
+    }
+    
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 0 10px;
+      transition: background-color 0.3s;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    .story-section {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      display: none;
+    }
+    
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 12px 20px;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      resize: none;
+      margin-bottom: 10px;
+    }
+    
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 15px 0;
+      font-size: 1.2rem;
+    }
+    
+    .info-section {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    
+    .animal-info {
+      display: none;
+      margin-top: 20px;
+      background-color: #fff9c4;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    
+    .level-select {
+      margin-bottom: 15px;
+    }
+    
+    .feedback {
+      display: none;
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    
+    @media (max-width: 768px) {
+      .game-board {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    @media (max-width: 500px) {
+      .game-board {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Animal Detectives</h1>
+    <p>Match animal names with their habitats and characteristics!</p>
+  </header>
+
+  <div class="game-container">
+    <div class="language-selector">
+      <h3>Select Language:</h3>
+    </div>
+
+    <div class="info-section">
+      <h2>How to Play</h2>
+      <p>1. Flip cards to find matching animal names, habitats, and characteristics.</p>
+      <p>2. Match all sets to complete the game.</p>
+      <p>3. Use what you've learned to write a story about your favorite animals!</p>
+      
+      <div class="level-select">
+        <h3>Select Level:</h3>
+        <button id="easy-btn">Easy (Grade 1-2)</button>
+        <button id="hard-btn">Advanced (Grade 3-4)</button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div id="pairs-found">Pairs Found: 0</div>
+      <div id="attempts">Attempts: 0</div>
+      <div id="timer">Time: 0s</div>
+    </div>
+
+    <div class="game-board" id="game-board"></div>
+
+    <div class="controls">
+      <button id="restart-btn">Restart Game</button>
+      <button id="story-btn" disabled>Write a Story</button>
+    </div>
+
+    <div class="animal-info" id="animal-info">
+      <h3>Animal Facts</h3>
+      <div id="animal-facts"></div>
+    </div>
+
+    <div class="story-section" id="story-section">
+      <h2>Create Your Animal Story</h2>
+      <p>Use what you learned about animals to write a short story!</p>
+      <textarea id="story-textarea" placeholder="Once upon a time in the forest..."></textarea>
+      <button id="save-story">Save Story</button>
+      <div class="feedback" id="feedback-message"></div>
+    </div>
+  </div>
+
+  <script>
+    // Game variables
+    let animals = [];
+    let cards = [];
+    let flippedCards = [];
+    let matchedPairs = 0;
+    let attempts = 0;
+    let gameStarted = false;
+    let timer = 0;
+    let timerInterval;
+    let savedStories = [];
+    let currentLevel = "easy";
+    
+    // DOM elements
+    const gameBoard = document.getElementById("game-board");
+    const pairsFoundElement = document.getElementById("pairs-found");
+    const attemptsElement = document.getElementById("attempts");
+    const timerElement = document.getElementById("timer");
+    const restartBtn = document.getElementById("restart-btn");
+    const storyBtn = document.getElementById("story-btn");
+    const storySection = document.getElementById("story-section");
+    const animalInfo = document.getElementById("animal-info");
+    const animalFacts = document.getElementById("animal-facts");
+    const easyBtn = document.getElementById("easy-btn");
+    const hardBtn = document.getElementById("hard-btn");
+    const feedbackMessage = document.getElementById("feedback-message");
+    
+    // Initialize the game
+    function initGame() {
+      clearInterval(timerInterval);
+      gameBoard.innerHTML = "";
+      flippedCards = [];
+      matchedPairs = 0;
+      attempts = 0;
+      timer = 0;
+      gameStarted = false;
+      
+      // Get animals based on current level and language
+      animals = currentLevel === "easy" ? getText('easyAnimals') : getText('hardAnimals');
+      
+      // Update UI
+      updateStats();
+      storyBtn.disabled = true;
+      animalInfo.style.display = "none";
+      storySection.style.display = "none";
+      feedbackMessage.style.display = "none";
+      
+      // Create cards based on the current level
+      createCards();
+      
+      // Shuffle cards
+      shuffleCards();
+      
+      // Render cards to the game board
+      renderCards();
+    }
+    
+    function updateStats() {
+      pairsFoundElement.textContent = `${getText('pairsFound')}: ${matchedPairs}`;
+      attemptsElement.textContent = `${getText('attempts')}: ${attempts}`;
+      timerElement.textContent = `${getText('time')}: ${timer}${getText('seconds')}`;
+    }
+    
+    function createCards() {
+      cards = [];
+      
+      animals.forEach(animal => {
+        // Create name card
+        cards.push({
+          id: `${animal.name}-name`,
+          type: "name",
+          content: animal.name,
+          animal: animal.name,
+          flipped: false,
+          matched: false
+        });
+        
+        // Create habitat card
+        cards.push({
+          id: `${animal.name}-habitat`,
+          type: "habitat",
+          content: `${getText('habitat')}: ${animal.habitat}`,
+          animal: animal.name,
+          flipped: false,
+          matched: false
+        });
+        
+        // Create characteristic card
+        cards.push({
+          id: `${animal.name}-characteristic`,
+          type: "characteristic",
+          content: `${getText('trait')}: ${animal.characteristic}`,
+          animal: animal.name,
+          flipped: false,
+          matched: false
+        });
+      });
+    }
+    
+    function shuffleCards() {
+      for (let i = cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cards[i], cards[j]] = [cards[j], cards[i]];
+      }
+    }
+    
+    function renderCards() {
+      gameBoard.innerHTML = "";
+      
+      cards.forEach(card => {
+        const cardElement = document.createElement("div");
+        cardElement.classList.add("card");
+        cardElement.dataset.id = card.id;
+        
+        if (card.flipped) {
+          cardElement.classList.add("flipped");
+          cardElement.textContent = card.content;
+        } else {
+          cardElement.textContent = "?";
+        }
+        
+        if (card.matched) {
+          cardElement.classList.add("matched");
+        }
+        
+        cardElement.addEventListener("click", () => flipCard(card, cardElement));
+        gameBoard.appendChild(cardElement);
+      });
+    }
+    
+    function flipCard(card, cardElement) {
+      // Prevent flipping if the card is already flipped or matched
+      if (card.flipped || card.matched || flippedCards.length >= 3) {
+        return;
+      }
+      
+      // Start timer on first flip
+      if (!gameStarted) {
+        startTimer();
+        gameStarted = true;
+      }
+      
+      // Flip the card
+      card.flipped = true;
+      cardElement.classList.add("flipped");
+      cardElement.textContent = card.content;
+      
+      // Add to flipped cards
+      flippedCards.push(card);
+      
+      // Check for matches if we have 3 cards flipped
+      if (flippedCards.length === 3) {
+        attempts++;
+        updateStats();
+        
+        // Check if all 3 cards belong to the same animal
+        if (flippedCards[0].animal === flippedCards[1].animal && 
+            flippedCards[1].animal === flippedCards[2].animal) {
+          // Check if we have one of each type (name, habitat, characteristic)
+          const types = flippedCards.map(c => c.type);
+          if (
+            types.includes("name") && 
+            types.includes("habitat") && 
+            types.includes("characteristic")
+          ) {
+            // It's a match!
+            flippedCards.forEach(c => {
+              c.matched = true;
+              document.querySelector(`[data-id="${c.id}"]`).classList.add("matched");
+            });
+            
+            matchedPairs++;
+            updateStats();
+            
+            // Show animal info
+            showAnimalInfo(flippedCards[0].animal);
+            
+            // Check if game is complete
+            if (matchedPairs === animals.length) {
+              setTimeout(() => {
+                const message = getText('gameComplete')
+                  .replace('{attempts}', attempts)
+                  .replace('{time}', timer);
+                alert(message);
+                clearInterval(timerInterval);
+                storyBtn.disabled = false;
+              }, 500);
+            }
+          } else {
+            // Not a valid match - flip back after delay
+            setTimeout(() => {
+              flippedCards.forEach(c => {
+                c.flipped = false;
+              });
+              renderCards();
+              flippedCards = [];
+            }, 1500);
+          }
+        } else {
+          // Not a match - flip back after delay
+          setTimeout(() => {
+            flippedCards.forEach(c => {
+              c.flipped = false;
+            });
+            renderCards();
+            flippedCards = [];
+          }, 1500);
+        }
+      }
+    }
+    
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        timer++;
+        updateStats();
+      }, 1000);
+    }
+    
+    function showAnimalInfo(animalName) {
+      const animal = animals.find(a => a.name === animalName);
+      if (animal) {
+        animalInfo.style.display = "block";
+        animalFacts.innerHTML = `
+          <h4>${animal.name}</h4>
+          <p><strong>${getText('habitat')}:</strong> ${animal.habitat}</p>
+          <p><strong>${getText('trait')}:</strong> ${animal.characteristic}</p>
+        `;
+        
+        // Clear flipped cards array after showing info
+        setTimeout(() => {
+          flippedCards = [];
+        }, 1000);
+      }
+    }
+    
+    function showFeedback(message, isSuccess) {
+      feedbackMessage.textContent = message;
+      feedbackMessage.style.display = "block";
+      feedbackMessage.style.backgroundColor = isSuccess ? "#4CAF50" : "#f44336";
+      
+      // Hide feedback after 3 seconds
+      setTimeout(() => {
+        feedbackMessage.style.display = "none";
+      }, 3000);
+    }
+    
+    // Event listeners
+    restartBtn.addEventListener("click", initGame);
+    
+    storyBtn.addEventListener("click", () => {
+      storySection.style.display = "block";
+      storySection.scrollIntoView({ behavior: "smooth" });
+    });
+    
+    document.getElementById("save-story").addEventListener("click", () => {
+      const storyText = document.getElementById("story-textarea").value;
+      if (storyText.trim() !== "") {
+        // Save the story
+        const timestamp = new Date().toLocaleString();
+        savedStories.push({
+          text: storyText,
+          date: timestamp
+        });
+        
+        // Display success feedback
+        const message = getText('storySaved').replace('{timestamp}', timestamp);
+        showFeedback(message, true);
+        
+        // Reset the textarea for a new story
+        document.getElementById("story-textarea").value = "";
+      } else {
+        // Display error feedback
+        showFeedback(getText('storyError'), false);
+      }
+    });
+    
+    easyBtn.addEventListener("click", () => {
+      currentLevel = "easy";
+      easyBtn.style.backgroundColor = "#45a049";
+      hardBtn.style.backgroundColor = "#4CAF50";
+      initGame();
+    });
+    
+    hardBtn.addEventListener("click", () => {
+      currentLevel = "hard";
+      hardBtn.style.backgroundColor = "#45a049";
+      easyBtn.style.backgroundColor = "#4CAF50";
+      initGame();
+    });
+    
+    // Initialize the game on load
+    window.addEventListener("load", () => {
+      initLanguageSelector();
+      updateUI();
+      initGame();
+    });
+  </script>
+</body>
+</html>

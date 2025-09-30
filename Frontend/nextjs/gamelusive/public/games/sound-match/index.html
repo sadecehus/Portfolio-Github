@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="gameTitle">Sound Match Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <div class="language-dropdown">
+            <button class="language-btn" id="language-btn">
+                <i class="fas fa-globe"></i>
+                <span data-i18n="language">Language</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="language-menu" id="language-menu">
+                <div class="language-option" data-lang="en">
+                    <span class="flag">🇺🇸</span>
+                    <span>English</span>
+                </div>
+                <div class="language-option" data-lang="tr">
+                    <span class="flag">🇹🇷</span>
+                    <span>Türkçe</span>
+                </div>
+                <div class="language-option" data-lang="pl">
+                    <span class="flag">🇵🇱</span>
+                    <span>Polski</span>
+                </div>
+                <div class="language-option" data-lang="nl">
+                    <span class="flag">🇳🇱</span>
+                    <span>Nederlands</span>
+                </div>
+                <div class="language-option" data-lang="lt">
+                    <span class="flag">🇱🇹</span>
+                    <span>Lietuvių</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-container">
+        <!-- Header -->
+        <header class="game-header">
+            <div class="header-content">
+                <div class="game-logo">
+                    <i class="fas fa-headphones"></i>
+                    <div class="logo-text">
+                        <h1 data-i18n="gameTitle">Sound Match Game</h1>
+                        <p data-i18n="gameSubtitle">Auditory Processing and Language Development</p>
+                    </div>
+                </div>
+                
+                <!-- Game Stats -->
+                <div class="game-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-content">
+                            <span class="stat-label" data-i18n="level">Level</span>
+                            <span id="current-level" class="stat-value">1</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-content">
+                            <span class="stat-label" data-i18n="score">Score</span>
+                            <span id="player-score" class="stat-value">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🔥</div>
+                        <div class="stat-content">
+                            <span class="stat-label" data-i18n="streak">Streak</span>
+                            <span id="streak-count" class="stat-value">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">❤️</div>
+                        <div class="stat-content">
+                            <span class="stat-label" data-i18n="lives">Lives</span>
+                            <span id="lives-count" class="stat-value">3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Game Area -->
+        <main class="game-main">
+            <!-- Sound Player Section -->
+            <section class="sound-section">
+                <div class="sound-player">
+                    <div class="sound-visual">
+                        <div class="sound-icon-container">
+                            <div class="sound-icon" id="sound-icon">
+                                <i class="fas fa-volume-up"></i>
+                            </div>
+                            <div class="sound-wave" id="sound-wave">
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sound-content">
+                        <h2 id="sound-question" data-i18n="whatSoundIsThis">What sound is this?</h2>
+                        <div class="sound-controls">
+                            <button id="play-sound-btn" class="btn btn-primary">
+                                <i class="fas fa-play"></i>
+                                <span data-i18n="playSound">Play Sound</span>
+                            </button>
+                            <button id="replay-sound-btn" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i>
+                                <span data-i18n="replaySound">Replay</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Options Section -->
+            <section class="options-section">
+                <div class="options-header">
+                    <h3 data-i18n="chooseCorrectPicture">Choose the correct picture:</h3>
+                    <div class="progress-info">
+                        <span id="question-counter">
+                            <span data-i18n="question">Question</span> 1 <span data-i18n="of">of</span> 10
+                        </span>
+                        <span id="category-info">
+                            <span data-i18n="category">Category</span>: <span data-i18n="animals">Animals</span>
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="picture-options" id="picture-options">
+                    <!-- Picture options will be generated by JavaScript -->
+                </div>
+                
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Game Controls -->
+        <div class="game-controls">
+            <button id="hint-btn" class="control-btn" title="Get a hint">
+                <i class="fas fa-lightbulb"></i>
+                <span data-i18n="hint">Hint</span>
+            </button>
+            <button id="settings-btn" class="control-btn" title="Settings">
+                <i class="fas fa-cog"></i>
+                <span data-i18n="settings">Settings</span>
+            </button>
+            <button id="mute-btn" class="control-btn" title="Mute/Unmute">
+                <i class="fas fa-volume-up"></i>
+                <span data-i18n="mute">Mute</span>
+            </button>
+            <button id="menu-btn" class="control-btn" title="Main Menu">
+                <i class="fas fa-home"></i>
+                <span data-i18n="menu">Menu</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Category Selection Modal -->
+    <div id="category-modal" class="modal active">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>
+                    <i class="fas fa-th-large"></i>
+                    <span data-i18n="chooseCategory">Choose a Category</span>
+                </h2>
+                <p data-i18n="selectSoundsTopractice">Select which sounds you'd like to practice with:</p>
+            </div>
+            
+            <div class="category-grid">
+                <div class="category-card" data-category="animals">
+                    <div class="category-icon">🐶</div>
+                    <h3 data-i18n="animals">Animals</h3>
+                    <p data-i18n="animalsDesc">Dogs, cats, cows, birds and more!</p>
+                    <div class="difficulty-badge easy" data-i18n="easy">Easy</div>
+                </div>
+                
+                <div class="category-card" data-category="vehicles">
+                    <div class="category-icon">🚗</div>
+                    <h3 data-i18n="vehicles">Vehicles</h3>
+                    <p data-i18n="vehiclesDesc">Cars, trains, planes and trucks!</p>
+                    <div class="difficulty-badge medium" data-i18n="normal">Normal</div>
+                </div>
+                
+                <div class="category-card" data-category="instruments">
+                    <div class="category-icon">🎹</div>
+                    <h3 data-i18n="instruments">Musical Instruments</h3>
+                    <p data-i18n="instrumentsDesc">Piano, guitar, drums and more!</p>
+                    <div class="difficulty-badge medium" data-i18n="normal">Normal</div>
+                </div>
+                
+                <div class="category-card" data-category="household">
+                    <div class="category-icon">🏠</div>
+                    <h3 data-i18n="household">Household Items</h3>
+                    <p data-i18n="householdDesc">Kitchen, bathroom and home sounds!</p>
+                    <div class="difficulty-badge hard" data-i18n="hard">Hard</div>
+                </div>
+                
+                <div class="category-card" data-category="nature">
+                    <div class="category-icon">🌊</div>
+                    <h3 data-i18n="nature">Nature Sounds</h3>
+                    <p data-i18n="natureDesc">Rain, wind, ocean and forest!</p>
+                    <div class="difficulty-badge hard" data-i18n="hard">Hard</div>
+                </div>
+                
+                <div class="category-card" data-category="mixed">
+                    <div class="category-icon">🎲</div>
+                    <h3 data-i18n="mixed">Mixed Challenge</h3>
+                    <p data-i18n="mixedDesc">All categories combined!</p>
+                    <div class="difficulty-badge expert">Expert</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div id="feedback-modal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="feedback-result">
+                <div id="feedback-icon" class="feedback-icon">✅</div>
+                <h2 id="feedback-title" data-i18n="correct">Correct!</h2>
+            </div>
+            
+            <div class="feedback-content">
+                <div class="sound-info">
+                    <div id="correct-picture" class="correct-picture">🐶</div>
+                    <div class="sound-description">
+                        <h3 id="sound-name">Dog Barking</h3>
+                        <p id="sound-fact">Dogs bark to communicate with humans and other dogs!</p>
+                    </div>
+                </div>
+                
+                <div class="feedback-actions">
+                    <button id="listen-again-btn" class="btn btn-secondary">
+                        <i class="fas fa-volume-up"></i>
+                        <span data-i18n="listenAgain">Listen Again</span>
+                    </button>
+                    <button id="continue-btn" class="btn btn-primary">
+                        <span data-i18n="continue">Continue</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div id="results-modal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content results-modal">
+            <div class="results-header">
+                <h2 id="results-title" data-i18n="excellent">� Excellent!</h2>
+                <div class="results-stats">
+                    <div class="result-stat">
+                        <span class="stat-number" id="final-score">850</span>
+                        <span class="stat-label" data-i18n="finalScore">Final Score</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="stat-number" id="correct-answers">8</span>
+                        <span class="stat-label" data-i18n="correctAnswers">Correct</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="stat-number" id="accuracy">80%</span>
+                        <span class="stat-label" data-i18n="accuracy">Accuracy</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results-content">
+                <div class="achievement-section">
+                    <h3>
+                        <i class="fas fa-trophy"></i>
+                        <span data-i18n="achievements">Achievements</span>
+                    </h3>
+                    <div id="achievements" class="achievements">
+                        <!-- Achievements will be added by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="mastery-section">
+                    <h3>
+                        <i class="fas fa-star"></i>
+                        <span data-i18n="masteredSounds">Mastered Sounds</span>
+                    </h3>
+                    <div id="mastered-sounds" class="mastered-sounds">
+                        <!-- Mastered sounds will be displayed -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button id="next-level-btn" class="btn btn-primary">
+                    <span data-i18n="nextLevel">Next Level</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button id="new-category-btn" class="btn btn-secondary">
+                    <span data-i18n="newCategory">New Category</span>
+                </button>
+                <button id="replay-level-btn" class="btn btn-outline">
+                    <i class="fas fa-redo"></i>
+                    <span data-i18n="replayLevel">Replay Level</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>
+                    <i class="fas fa-cog"></i>
+                    <span data-i18n="settings">Settings</span>
+                </h2>
+                <button id="close-settings" class="btn-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="settings-content">
+                <div class="setting-group">
+                    <label for="volume-slider">
+                        <i class="fas fa-volume-up"></i>
+                        <span data-i18n="volume">Volume</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="volume-slider" min="0" max="100" value="80">
+                        <span id="volume-value">80%</span>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="speed-select">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span data-i18n="speed">Speed</span>
+                    </label>
+                    <select id="speed-select" class="select-input">
+                        <option value="slow">Slow (Beginner)</option>
+                        <option value="normal" selected>Normal</option>
+                        <option value="fast">Fast (Advanced)</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label>
+                        <i class="fas fa-crosshairs"></i>
+                        <span data-i18n="difficulty">Difficulty</span>
+                    </label>
+                    <div class="difficulty-options">
+                        <button class="difficulty-btn" data-difficulty="easy">
+                            <span data-i18n="easy">Easy</span> (4)
+                        </button>
+                        <button class="difficulty-btn active" data-difficulty="normal">
+                            <span data-i18n="normal">Normal</span> (6)
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="hard">
+                            <span data-i18n="hard">Hard</span> (8)
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="auto-replay">
+                        <i class="fas fa-redo"></i>
+                        <span data-i18n="autoReplay">Auto Replay</span>
+                    </label>
+                    <label class="toggle">
+                        <input type="checkbox" id="auto-replay">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System Settlers - Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: #fff;
+            padding: 20px;
+        }
+        .debug-panel {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #4a9eff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #357abd;
+        }
+        .log {
+            background: #222;
+            padding: 10px;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Solar System Settlers - Debug Panel</h1>
+    
+    <div class="debug-panel">
+        <h3>Quick Tests</h3>
+        <button onclick="testPlanetClick()">Test Planet Click</button>
+        <button onclick="testGameState()">Check Game State</button>
+        <button onclick="testPlanetData()">Test Planet Data</button>
+        <button onclick="startNewGame()">Start New Game</button>
+        <button onclick="showMars()">Show Mars Directly</button>
+        <button onclick="clearLog()">Clear Log</button>
+    </div>
+    
+    <div class="debug-panel">
+        <h3>Debug Console</h3>
+        <div id="debug-log" class="log">
+            Debug output will appear here...
+        </div>
+    </div>
+    
+    <div class="debug-panel">
+        <h3>Game Elements</h3>
+        <div id="game-elements"></div>
+    </div>
+
+    <script>
+        let logElement = document.getElementById('debug-log');
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.innerHTML += `[${timestamp}] ${message}<br>`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+        
+        function clearLog() {
+            logElement.innerHTML = '';
+        }
+        
+        function testPlanetClick() {
+            log('🧪 Testing planet click...');
+            
+            // Check if game object exists
+            if (typeof window.game !== 'undefined') {
+                log('✅ Game object found');
+                
+                if (window.game.selectPlanet) {
+                    log('✅ selectPlanet method found');
+                    try {
+                        window.game.selectPlanet('mars');
+                        log('✅ selectPlanet called successfully');
+                    } catch (error) {
+                        log('❌ Error calling selectPlanet: ' + error.message);
+                    }
+                } else {
+                    log('❌ selectPlanet method not found');
+                }
+            } else {
+                log('❌ Game object not found');
+            }
+        }
+        
+        function testGameState() {
+            log('🧪 Testing game state...');
+            
+            if (typeof window.game !== 'undefined') {
+                log('✅ Game object exists');
+                
+                if (window.game.gameState) {
+                    log(`✅ Game state exists - Screen: ${window.game.gameState.currentScreen}`);
+                    log(`✅ Selected planet: ${window.game.gameState.selectedPlanet || 'none'}`);
+                } else {
+                    log('❌ Game state not found');
+                }
+            } else {
+                log('❌ Game object not found');
+            }
+        }
+        
+        function testPlanetData() {
+            log('🧪 Testing planet data...');
+            
+            if (typeof window.planetsData !== 'undefined') {
+                log('✅ Planet data found');
+                log(`✅ Available planets: ${Object.keys(window.planetsData).join(', ')}`);
+                
+                if (window.planetsData.mars) {
+                    log(`✅ Mars data: ${window.planetsData.mars.name}`);
+                } else {
+                    log('❌ Mars data not found');
+                }
+            } else {
+                log('❌ Planet data not found');
+            }
+        }
+        
+        function startNewGame() {
+            log('🧪 Starting new game...');
+            
+            if (typeof window.game !== 'undefined' && window.game.startNewGame) {
+                try {
+                    window.game.startNewGame();
+                    log('✅ New game started');
+                } catch (error) {
+                    log('❌ Error starting new game: ' + error.message);
+                }
+            } else {
+                log('❌ Game or startNewGame method not found');
+            }
+        }
+        
+        function showMars() {
+            log('🧪 Showing Mars directly...');
+            
+            if (typeof window.game !== 'undefined' && window.game.showPlanetDetailView) {
+                try {
+                    window.game.showPlanetDetailView('mars');
+                    log('✅ Mars view should be showing');
+                } catch (error) {
+                    log('❌ Error showing Mars: ' + error.message);
+                }
+            } else {
+                log('❌ Game or showPlanetDetailView method not found');
+            }
+        }
+        
+        // Show available game elements
+        function updateGameElements() {
+            const elementsDiv = document.getElementById('game-elements');
+            let html = '';
+            
+            // Check for important DOM elements
+            const elements = [
+                'solar-system-view',
+                'planet-detail-view',
+                'game-interface'
+            ];
+            
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                html += `<p>${id}: ${element ? '✅ Found' : '❌ Not found'}</p>`;
+            });
+            
+            // Check for planets
+            const planets = document.querySelectorAll('.planet');
+            html += `<p>Planets found: ${planets.length}</p>`;
+            
+            elementsDiv.innerHTML = html;
+        }
+        
+        // Update every second
+        setInterval(updateGameElements, 1000);
+        
+        log('🚀 Debug panel ready!');
+        log('Open the main game in another tab, then use these buttons to test.');
+    </script>
+</body>
+</html>

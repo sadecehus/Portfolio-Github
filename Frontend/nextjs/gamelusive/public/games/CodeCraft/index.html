@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCraft Chronicles - Learn Programming Through Adventure</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="gameContainer" class="game-container">
+        <!-- Header -->
+        <header class="game-header">
+            <div class="header-left">
+                <h1 id="gameTitle" class="game-title">🏰 CodeCraft Chronicles</h1>
+                <div class="level-info">
+                    <span id="currentLevelText">Level</span>: <span id="currentLevel">1</span>
+                    <span class="level-title" id="levelTitle">First Steps</span>
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <span id="progressText" class="progress-text">0/20 Levels</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="language-selector">
+                    <select id="languageSelect">
+                        <option value="en">🇺🇸 English</option>
+                        <option value="tr">🇹🇷 Türkçe</option>
+                        <option value="pl">🇵🇱 Polski</option>
+                        <option value="lt">🇱🇹 Lietuvių</option>
+                        <option value="nl">🇳🇱 Nederlands</option>
+                    </select>
+                </div>
+                <div class="achievements-counter">
+                    <span class="achievement-icon">🏆</span>
+                    <span id="achievementCount">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Game Area -->
+        <div class="main-content">
+            <!-- Left Panel - Code Blocks -->
+            <div class="left-panel">
+                <div class="panel-header">
+                    <h3 id="codeBlocksTitle">Code Blocks</h3>
+                    <button id="helpBtn" class="help-btn">❓</button>
+                </div>
+                
+                <!-- Block Categories -->
+                <div class="block-categories">
+                    <button class="category-btn active" data-category="movement" id="movementTab">
+                        <span class="category-icon">🏃</span>
+                        <span id="movementText">Movement</span>
+                    </button>
+                    <button class="category-btn" data-category="loops" id="loopsTab">
+                        <span class="category-icon">🔄</span>
+                        <span id="loopsText">Loops</span>
+                    </button>
+                    <button class="category-btn" data-category="logic" id="logicTab">
+                        <span class="category-icon">🤔</span>
+                        <span id="logicText">Logic</span>
+                    </button>
+                    <button class="category-btn" data-category="functions" id="functionsTab">
+                        <span class="category-icon">⚡</span>
+                        <span id="functionsText">Functions</span>
+                    </button>
+                </div>
+
+                <!-- Available Blocks -->
+                <div class="blocks-container">
+                    <div class="blocks-category" id="movement-blocks">
+                        <div class="code-block movement-block" draggable="true" data-action="moveForward">
+                            <span class="block-icon">⬆️</span>
+                            <span class="block-text" id="moveForwardText">Move Forward</span>
+                        </div>
+                        <div class="code-block movement-block" draggable="true" data-action="turnLeft">
+                            <span class="block-icon">⬅️</span>
+                            <span class="block-text" id="turnLeftText">Turn Left</span>
+                        </div>
+                        <div class="code-block movement-block" draggable="true" data-action="turnRight">
+                            <span class="block-icon">➡️</span>
+                            <span class="block-text" id="turnRightText">Turn Right</span>
+                        </div>
+                        <div class="code-block movement-block" draggable="true" data-action="collect">
+                            <span class="block-icon">💎</span>
+                            <span class="block-text" id="collectText">Collect</span>
+                        </div>
+                    </div>
+
+                    <div class="blocks-category hidden" id="loops-blocks">
+                        <div class="code-block loop-block container-block" draggable="true" data-action="repeat">
+                            <div class="block-header">
+                                <span class="block-icon">🔄</span>
+                                <span class="block-text" id="repeatText">Repeat</span>
+                                <input type="number" class="repeat-input" value="3" min="1" max="10">
+                                <span id="timesText">times</span>
+                            </div>
+                            <div class="block-body drop-zone" data-container="repeat"></div>
+                        </div>
+                        <div class="code-block loop-block container-block" draggable="true" data-action="while">
+                            <div class="block-header">
+                                <span class="block-icon">🔁</span>
+                                <span class="block-text" id="whileText">While</span>
+                                <select class="condition-select">
+                                    <option value="pathClear" id="pathClearOption">path is clear</option>
+                                    <option value="gemNear" id="gemNearOption">gem nearby</option>
+                                </select>
+                            </div>
+                            <div class="block-body drop-zone" data-container="while"></div>
+                        </div>
+                    </div>
+
+                    <div class="blocks-category hidden" id="logic-blocks">
+                        <div class="code-block logic-block container-block" draggable="true" data-action="if">
+                            <div class="block-header">
+                                <span class="block-icon">🤔</span>
+                                <span class="block-text" id="ifText">If</span>
+                                <select class="condition-select">
+                                    <option value="pathClear" id="ifPathClearOption">path is clear</option>
+                                    <option value="gemNear" id="ifGemNearOption">gem nearby</option>
+                                    <option value="wallAhead" id="wallAheadOption">wall ahead</option>
+                                </select>
+                            </div>
+                            <div class="block-body drop-zone" data-container="if"></div>
+                        </div>
+                        <div class="code-block logic-block container-block" draggable="true" data-action="ifElse">
+                            <div class="block-header">
+                                <span class="block-icon">🤔</span>
+                                <span class="block-text" id="ifElseText">If-Else</span>
+                                <select class="condition-select">
+                                    <option value="pathClear" id="elsePathClearOption">path is clear</option>
+                                    <option value="gemNear" id="elseGemNearOption">gem nearby</option>
+                                    <option value="wallAhead" id="elseWallAheadOption">wall ahead</option>
+                                </select>
+                            </div>
+                            <div class="block-body drop-zone" data-container="if"></div>
+                            <div class="else-section">
+                                <span class="else-text" id="elseText">Else</span>
+                                <div class="block-body drop-zone" data-container="else"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="blocks-category hidden" id="functions-blocks">
+                        <div class="code-block function-block" draggable="true" data-action="function">
+                            <span class="block-icon">⚡</span>
+                            <span class="block-text" id="functionText">Create Function</span>
+                        </div>
+                        <div class="code-block function-block" draggable="true" data-action="callFunction">
+                            <span class="block-icon">📞</span>
+                            <span class="block-text" id="callFunctionText">Call Function</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Panel - Game World -->
+            <div class="center-panel">
+                <div class="game-world-container">
+                    <div class="world-header">
+                        <h3 id="gameWorldTitle">Game World</h3>
+                        <div class="world-controls">
+                            <button id="runCodeBtn" class="run-btn">
+                                <span class="btn-icon">▶️</span>
+                                <span id="runCodeText">Run Code</span>
+                            </button>
+                            <button id="resetBtn" class="reset-btn">
+                                <span class="btn-icon">🔄</span>
+                                <span id="resetText">Reset</span>
+                            </button>
+                            <button id="stepBtn" class="step-btn">
+                                <span class="btn-icon">👣</span>
+                                <span id="stepText">Step</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Game Grid -->
+                    <div id="gameGrid" class="game-grid"></div>
+                    
+                    <!-- Game Status -->
+                    <div class="game-status">
+                        <div class="status-item">
+                            <span class="status-icon">💎</span>
+                            <span id="gemsCollected">0</span>/<span id="totalGems">3</span>
+                            <span id="gemsText">Gems</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-icon">👣</span>
+                            <span id="stepsCount">0</span>
+                            <span id="stepsText">Steps</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-icon">⏱️</span>
+                            <span id="timeElapsed">0</span>s
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Code Area -->
+            <div class="right-panel">
+                <div class="panel-header">
+                    <h3 id="codeAreaTitle">Your Code</h3>
+                    <div class="code-controls">
+                        <button id="clearCodeBtn" class="clear-btn">
+                            <span class="btn-icon">🗑️</span>
+                            <span id="clearCodeText">Clear</span>
+                        </button>
+                        <button id="saveCodeBtn" class="save-btn">
+                            <span class="btn-icon">💾</span>
+                            <span id="saveCodeText">Save</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Code Drop Area -->
+                <div id="codeArea" class="code-area drop-zone">
+                    <div class="empty-code-message">
+                        <div class="empty-icon">📝</div>
+                        <p id="dragBlocksText">Drag code blocks here to create your program!</p>
+                    </div>
+                </div>
+
+                <!-- Code Validation -->
+                <div class="code-validation">
+                    <div id="codeErrors" class="code-errors hidden">
+                        <div class="error-header">
+                            <span class="error-icon">⚠️</span>
+                            <span id="errorsFoundText">Errors Found:</span>
+                        </div>
+                        <ul id="errorsList"></ul>
+                    </div>
+                    <div id="codeHints" class="code-hints hidden">
+                        <div class="hint-header">
+                            <span class="hint-icon">💡</span>
+                            <span id="hintText">Hint:</span>
+                        </div>
+                        <p id="hintContent"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Level Complete Modal -->
+        <div id="levelCompleteModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="levelCompleteTitle">🎉 Level Complete!</h2>
+                    <button id="closeModalBtn" class="close-btn">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="completion-stats">
+                        <div class="stat-item">
+                            <span class="stat-icon">⏱️</span>
+                            <span id="completionTime">45</span>s
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">👣</span>
+                            <span id="completionSteps">12</span>
+                            <span id="stepsUsedText">steps used</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">🧩</span>
+                            <span id="blocksUsed">8</span>
+                            <span id="blocksUsedText">blocks used</span>
+                        </div>
+                    </div>
+                    
+                    <div class="achievements-earned">
+                        <h3 id="achievementsEarnedTitle">Achievements Earned:</h3>
+                        <div id="achievementsList" class="achievements-list"></div>
+                    </div>
+                    
+                    <div class="concept-learned">
+                        <h3 id="conceptLearnedTitle">Concept Learned:</h3>
+                        <div class="concept-card">
+                            <div class="concept-icon">📚</div>
+                            <div class="concept-content">
+                                <h4 id="conceptName">Sequential Programming</h4>
+                                <p id="conceptDescription">You learned how to create a sequence of instructions that the computer follows step by step!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="retryLevelBtn" class="btn secondary">
+                        <span class="btn-icon">🔄</span>
+                        <span id="retryLevelText">Retry Level</span>
+                    </button>
+                    <button id="nextLevelBtn" class="btn primary">
+                        <span class="btn-icon">➡️</span>
+                        <span id="nextLevelText">Next Level</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Modal -->
+        <div id="tutorialModal" class="modal hidden">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h2 id="tutorialTitle">🎓 Welcome to CodeCraft Chronicles!</h2>
+                    <button id="closeTutorialBtn" class="close-btn">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="tutorial-content">
+                        <div class="tutorial-step active" data-step="1">
+                            <div class="tutorial-visual">
+                                <div class="visual-placeholder">
+                                    <span class="visual-icon">🏰</span>
+                                </div>
+                            </div>
+                            <div class="tutorial-text">
+                                <h3 id="tutorialStep1Title">Welcome, Young Coder!</h3>
+                                <p id="tutorialStep1Text">Embark on an epic adventure through the magical world of programming! Help our robot knight navigate through castles, collect treasures, and learn the art of coding.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="tutorial-step" data-step="2">
+                            <div class="tutorial-visual">
+                                <div class="visual-placeholder">
+                                    <span class="visual-icon">🧩</span>
+                                </div>
+                            </div>
+                            <div class="tutorial-text">
+                                <h3 id="tutorialStep2Title">Drag & Drop Code Blocks</h3>
+                                <p id="tutorialStep2Text">Programming is like building with blocks! Drag code blocks from the left panel to create your program. Each block represents an action the robot can perform.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="tutorial-step" data-step="3">
+                            <div class="tutorial-visual">
+                                <div class="visual-placeholder">
+                                    <span class="visual-icon">▶️</span>
+                                </div>
+                            </div>
+                            <div class="tutorial-text">
+                                <h3 id="tutorialStep3Title">Run Your Code</h3>
+                                <p id="tutorialStep3Text">Once you've arranged your blocks, click the "Run Code" button to see your robot follow your instructions. Watch as your code comes to life!</p>
+                            </div>
+                        </div>
+                        
+                        <div class="tutorial-step" data-step="4">
+                            <div class="tutorial-visual">
+                                <div class="visual-placeholder">
+                                    <span class="visual-icon">🏆</span>
+                                </div>
+                            </div>
+                            <div class="tutorial-text">
+                                <h3 id="tutorialStep4Title">Learn & Achieve</h3>
+                                <p id="tutorialStep4Text">Complete levels to unlock new programming concepts and earn achievements. From simple movements to complex loops and conditions - master them all!</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tutorial-navigation">
+                        <button id="prevTutorialBtn" class="btn secondary" disabled>
+                            <span class="btn-icon">⬅️</span>
+                            <span id="prevText">Previous</span>
+                        </button>
+                        <div class="tutorial-dots">
+                            <span class="dot active" data-step="1"></span>
+                            <span class="dot" data-step="2"></span>
+                            <span class="dot" data-step="3"></span>
+                            <span class="dot" data-step="4"></span>
+                        </div>
+                        <button id="nextTutorialBtn" class="btn primary">
+                            <span id="nextText">Next</span>
+                            <span class="btn-icon">➡️</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Level Selection Modal -->
+        <div id="levelSelectModal" class="modal hidden">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h2 id="levelSelectTitle">📍 Choose Your Adventure</h2>
+                    <button id="closeLevelSelectBtn" class="close-btn">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="level-grid" id="levelGrid">
+                        <!-- Levels will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Controls -->
+        <div class="bottom-controls">
+            <button id="levelSelectBtn" class="control-btn">
+                <span class="btn-icon">📍</span>
+                <span id="levelSelectText">Level Select</span>
+            </button>
+            <button id="tutorialBtn" class="control-btn">
+                <span class="btn-icon">🎓</span>
+                <span id="tutorialBtnText">Tutorial</span>
+            </button>
+            <button id="achievementsBtn" class="control-btn">
+                <span class="btn-icon">🏆</span>
+                <span id="achievementsBtnText">Achievements</span>
+            </button>
+            <button id="settingsBtn" class="control-btn">
+                <span class="btn-icon">⚙️</span>
+                <span id="settingsBtnText">Settings</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
