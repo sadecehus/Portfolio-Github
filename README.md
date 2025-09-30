@@ -56,10 +56,13 @@ Each project folder contains its own README with specific setup instructions. To
 1. Navigate to the desired folder (Frontend, Backend, or Full-Stack)
 2. Choose a specific technology/project
 3. Follow the setup instructions in the project's README
+## Projects
+Nextflix (/frontend/nextjs)
+Drum Kit (/frontend/htmlcssjs)
 
 ## 📞 Contact
 
-Feel free to reach out if you have any questions about my projects or would like to collaborate!
+Feel free to reach out if you have any questions about my projects or would like to collaborate! kocaturk4145@gmail.com
 
 ## 📄 License
 
