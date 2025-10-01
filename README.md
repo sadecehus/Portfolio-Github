@@ -2,6 +2,12 @@
 
 Welcome to my comprehensive development portfolio! This repository showcases my skills and projects across various technologies and frameworks.
 
+## Projects
+Nextflix (/frontend/nextjs)
+Drum Kit (/frontend/htmlcssjs)
+İlet Bilişim Hizmetleri(/frontend/nextjs)(Internship)
+Gamelusive Education (/frontend/nextjs)(freelance work. it deployed on www.gamelusiveedu.eu)
+
 ## 📁 Repository Structure
 
 ```
@@ -56,9 +62,7 @@ Each project folder contains its own README with specific setup instructions. To
 1. Navigate to the desired folder (Frontend, Backend, or Full-Stack)
 2. Choose a specific technology/project
 3. Follow the setup instructions in the project's README
-## Projects
-Nextflix (/frontend/nextjs)
-Drum Kit (/frontend/htmlcssjs)
+
 
 ## 📞 Contact
 
