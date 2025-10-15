@@ -3,6 +3,7 @@ import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { fetchMovies } from "@/services/api";
+import { updateSearchCount } from "@/services/appwrite";
 import useFetch from "@/services/useFetch";
 import React, { useEffect } from "react";
 import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
@@ -25,6 +26,13 @@ const search = () => {
     // Cleanup function - yeni keystrokes geldiğinde önceki timeout'u iptal et
     return () => clearTimeout(timeoutId);
   }, [searchQuery]);
+
+  // Filmler yüklendikten sonra arama sayısını güncelle
+  useEffect(() => {
+    if (searchQuery.trim() && movies && movies.length > 0 && !loading) {
+       updateSearchCount(searchQuery, movies[0]);
+    }
+  }, [movies, loading]);
 
   return (
     <View className="bg-primary flex-1">
