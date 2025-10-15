@@ -9,12 +9,16 @@ export default function RootLayout() {
       <StatusBar backgroundColor="black" style="dark" />
       
       {/* Stack navigator with header ayarları */}
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: "black" },
-          headerTintColor: "white", // başlık yazısı beyaz
-        }}
-      />
+      <Stack>
+        <Stack.Screen
+          name="(tabs)"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="movies/[id]"
+          options={{ headerShown: false }}
+        />
+      </Stack>
     </>
   );
 }
