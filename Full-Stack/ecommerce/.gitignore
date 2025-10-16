@@ -1,0 +1,26 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.dbmdl
+*.pdb
+*.cache
+*.log
+*.vs/
+*.vscode/
+# OS
+.DS_Store
+Thumbs.db
+# Others
+*.swp
+*.tmp
+*.bak
+*.lock
+# Rider
+.idea/
+*.iml
+# Visual Studio Code
+.vscode/
