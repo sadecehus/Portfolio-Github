@@ -7,6 +7,8 @@ Welcome to my comprehensive development portfolio! This repository showcases my 
 **Drum Kit (/frontend/htmlcssjs)** <br>
 **İlet Bilişim Hizmetleri(/frontend/nextjs)(Internship)** <br>
 **Gamelusive Education (/frontend/nextjs)(freelance work. it deployed on www.gamelusiveedu.eu)** <br>
+**Mobile Movie App (/mobil/reactnative)**<br>
+**Kidney Disease Segmentation (/Image Processing Full Stack/)**<br>
 
 ## 📁 Repository Structure
 
