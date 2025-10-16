@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kidney Disease Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏥 Kidney Disease Detection System</h1>
+            <p>Upload a kidney image to detect cysts, stones, tumors, and kidney abnormalities</p>
+        </header>
+
+        <div class="upload-section">
+            <div class="upload-box" id="uploadBox">
+                <div class="upload-icon">📁</div>
+                <p>Drag & drop an image here or click to browse</p>
+                <input type="file" id="fileInput" accept="image/*" hidden>
+                <button class="btn-primary" onclick="document.getElementById('fileInput').click()">
+                    Choose File
+                </button>
+            </div>
+        </div>
+
+        <div id="loadingSection" class="loading-section" style="display: none;">
+            <div class="spinner"></div>
+            <p>Analyzing image with AI models...</p>
+        </div>
+
+        <div id="resultsSection" class="results-section" style="display: none;">
+            <h2>Detection Results</h2>
+            
+            <div class="image-container">
+                <h3>Processed Image</h3>
+                <img id="processedImage" src="" alt="Processed Image">
+            </div>
+
+            <div class="detections-container">
+                <h3>Detected Conditions</h3>
+                <div id="detectionsList"></div>
+            </div>
+
+            <button class="btn-secondary" onclick="resetUpload()">
+                Analyze Another Image
+            </button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
