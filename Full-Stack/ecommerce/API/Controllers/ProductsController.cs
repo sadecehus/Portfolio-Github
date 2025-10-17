@@ -39,8 +39,56 @@ namespace API.Controllers
                 return NotFound();
             }
             return Ok(product);
-        } 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct([FromBody] Product product)
+        {
+            if (product == null)
+            {
+                return BadRequest();
+            }
+            if (!ModelState.IsValid)
+            {
+             return BadRequest(ModelState);   
+            }
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+        }
         
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] Product product)
+        {
+            if (product == null)
+            {
+                return BadRequest("Product cannot be null.");
+            }
+
+            if (id != product.Id)
+            {
+                return BadRequest("ID mismatch.");
+            }
+
+            var existingProduct = await _context.Products.FindAsync(id);
+            if (existingProduct == null)
+            {
+                return NotFound($"Product with ID {id} not found.");
+            }
+
+            // Alan bazlı güncelleme (isteğe göre seçici davranabilirsin)
+            existingProduct.Name = product.Name;
+            existingProduct.Description = product.Description;
+            existingProduct.Price = product.Price;
+            existingProduct.IsActive = product.IsActive;
+            existingProduct.ImageUrl = product.ImageUrl;
+            existingProduct.Stock = product.Stock;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(existingProduct);
+        }
+
         
     }
 }
