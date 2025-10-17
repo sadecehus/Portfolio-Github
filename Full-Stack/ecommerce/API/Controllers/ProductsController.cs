@@ -89,6 +89,24 @@ namespace API.Controllers
             return Ok(existingProduct);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound($"Product with ID {id} not found.");
+            }
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
         
     }
 }

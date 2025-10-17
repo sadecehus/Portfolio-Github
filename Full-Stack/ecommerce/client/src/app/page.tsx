@@ -1,10 +1,15 @@
+import { Navbar } from "@/components/navbar";
 import Products  from "@/components/products";
+import { ModeToggle } from "@/components/theme-toggle";
 import Image from "next/image";
 
 export default function Home() {
   return (
-   <div className="container mx-auto p-8">
-    <Products/>
-   </div>
+    <>
+      <Navbar />
+      <div className="container mx-auto">
+        <Products />
+      </div>
+    </>
   );
 }
