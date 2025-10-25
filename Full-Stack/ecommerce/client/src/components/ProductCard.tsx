@@ -9,6 +9,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
+import { Button } from "./ui/button";
+import { Heart, HeartIcon, InfoIcon} from "lucide-react";
+import Link from "next/link";
 
 interface ProductCardProps {
   product: IProduct;
@@ -38,9 +41,18 @@ export default function ProductCard({ product }: ProductCardProps) {
         </p>
       </CardContent>
       <CardFooter>
-        <p className="text-sm text-muted-foreground">
-          {product.isActive ? "In Stock" : "Out of Stock"}
-        </p>
+        <div className="grid grid-cols-2 gap-4 w-full">
+          <Link href={`/products/${product.id}`}>
+            <Button variant="outline" className="w-full" >
+              <InfoIcon />
+              Details
+            </Button>
+          </Link>
+            <Button variant="outline"  className="w-full">
+              <HeartIcon />
+              Add to Cart
+            </Button>
+        </div>
       </CardFooter>
     </Card>
   );

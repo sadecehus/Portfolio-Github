@@ -78,7 +78,7 @@ export default function ProductsList() {
 
   return (
     <div className="container mx-auto p-8">
-      <div className="flex justify-between items-center mb-6">
+      {/* <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Products</h1>
         
         <Dialog open={open} onOpenChange={setOpen}>
@@ -157,7 +157,7 @@ export default function ProductsList() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      </div>
+      </div> */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {activeProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
