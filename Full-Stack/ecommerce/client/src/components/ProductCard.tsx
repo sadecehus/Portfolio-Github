@@ -21,26 +21,27 @@ export default function ProductCard({ product }: ProductCardProps) {
   // API'den gelen relative path'i tam URL'e çevir
   
   return (
-    <Card className="hover:scale-105 rounded-4xl transition-shadow shadow-md hover:shadow-lg">
+    <Card className="hover:scale-105 rounded-4xl transition-shadow shadow-md hover:shadow-lg flex flex-col h-full">
       <CardHeader>
-        <Image
-          src={
-            product.imageUrl == null ? "/200x300.png" : product.imageUrl
-        }
-          alt={product.name}
-          width={300}
-          height={200}
-          className="object-contain rounded-t-2xl rounded-b-sm"
-        />
+        <div className="relative w-full h-48">
+          <Image
+            src={
+              product.imageUrl == null ? "/200x300.png" : product.imageUrl
+            }
+            alt={product.name}
+            fill
+            className="object-contain rounded-t-2xl rounded-b-sm"
+          />
+        </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-grow">
         <CardTitle className="font-bold text-2xl">{product.name}</CardTitle>
         <CardDescription>{product.description}</CardDescription>
         <p className="text-2xl font-bold text-green-600">
           {product.price.toFixed(2)} ₺
         </p>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="mt-auto">
         <div className="grid grid-cols-2 gap-4 w-full">
           <Link href={`/products/${product.id}`}>
             <Button variant="outline" className="w-full" >

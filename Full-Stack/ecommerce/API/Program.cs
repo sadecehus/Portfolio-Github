@@ -1,4 +1,5 @@
 using API.Data;
+using API.Middlewares;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddCors();
 
 var app = builder.Build();
+app.UseMiddleware<ExceptionHandling>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -40,6 +42,7 @@ app.UseCors(opt =>
 });
 
 app.UseAuthorization();
+
 
 app.MapControllers();
 

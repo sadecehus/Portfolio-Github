@@ -1,0 +1,3 @@
+Bu codebase BTK da yer alan c# kursu için oluşturulmuştur
+2025 Hüseyin Kocatürk
+Test Dosya Yönetimi
