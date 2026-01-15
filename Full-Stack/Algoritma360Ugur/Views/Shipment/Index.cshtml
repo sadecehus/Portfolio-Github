@@ -1,0 +1,127 @@
+@model List<Product>
+
+@{
+    ViewData["Title"] = "Sevkiyat İşlemleri";
+    Layout = "_Layout";
+}
+
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-6 py-4 bg-gradient-to-r from-green-600 to-green-700 text-white">
+            <h2 class="text-2xl font-bold flex items-center">
+                <i class="fas fa-shipping-fast mr-3"></i>Sevkiyat İşlemleri
+            </h2>
+            <p class="text-green-100 mt-1">Ürün sevkiyatı için bilgileri doldurun</p>
+        </div>
+
+        <div class="p-6">
+            @if (ViewBag.Error != null)
+            {
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded" role="alert">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-circle mr-3"></i>
+                        <p>@ViewBag.Error</p>
+                    </div>
+                </div>
+            }
+
+            <form method="post" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-box mr-2 text-gray-500"></i>Ürün Seçin
+                    </label>
+                    <select name="productId" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200">
+                        <option value="">-- Bir ürün seçin --</option>
+                        @foreach (var product in Model)
+                        {
+                            if (product.ProductRule != null && product.Stock != null)
+                            {
+                                var statusColor = product.ProductRule.IsAllowed ? "text-green-600" : "text-red-600";
+                                var statusIcon = product.ProductRule.IsAllowed ? "✓" : "✗";
+                                <option value="@product.Id">
+                                    @statusIcon @product.Name (Stok: @product.Stock.Quantity)
+                                </option>
+                            }
+                        }
+                    </select>
+                    <p class="mt-2 text-sm text-gray-500">
+                        <i class="fas fa-info-circle mr-1"></i>Sadece sevkiyat izni olan ürünler gönderilebilir
+                    </p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-sort-numeric-up mr-2 text-gray-500"></i>Sevkiyat Miktarı
+                    </label>
+                    <input name="quantity" type="number" min="1" required
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200"
+                           placeholder="Göndermek istediğiniz adet" />
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-info-circle text-blue-500 text-xl"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-blue-700">
+                                <strong>Not:</strong> Sevkiyat yapılacak ürünün stokta yeterli miktarda olduğundan ve sevkiyat izninin aktif olduğundan emin olun.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-4 border-t">
+                    <a asp-controller="Home" asp-action="Index"
+                       class="text-gray-600 hover:text-gray-800 font-medium transition duration-200">
+                        <i class="fas fa-arrow-left mr-2"></i>Geri Dön
+                    </a>
+                    <button type="submit"
+                            class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-8 py-3 rounded-lg font-medium transition duration-200 shadow-lg hover:shadow-xl">
+                        <i class="fas fa-paper-plane mr-2"></i>Sevkiyatı Başlat
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Aktif Ürünler Özeti -->
+    <div class="mt-6 bg-white rounded-xl shadow-md p-6">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">
+            <i class="fas fa-list-ul mr-2 text-gray-600"></i>Mevcut Ürünler
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            @foreach (var product in Model)
+            {
+                if (product.ProductRule != null && product.Stock != null)
+                {
+                    <div class="border rounded-lg p-4 hover:shadow-md transition duration-200 @(product.ProductRule.IsAllowed ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50")">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="font-semibold text-gray-800">@product.Name</h4>
+                                <p class="text-sm text-gray-600 mt-1">
+                                    <i class="fas fa-warehouse mr-1"></i>Stok: <strong>@product.Stock.Quantity</strong>
+                                </p>
+                            </div>
+                            <div>
+                                @if (product.ProductRule.IsAllowed)
+                                {
+                                    <span class="px-3 py-1 bg-green-200 text-green-800 rounded-full text-xs font-semibold">
+                                        <i class="fas fa-check-circle"></i> Aktif
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="px-3 py-1 bg-red-200 text-red-800 rounded-full text-xs font-semibold">
+                                        <i class="fas fa-ban"></i> Engelli
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

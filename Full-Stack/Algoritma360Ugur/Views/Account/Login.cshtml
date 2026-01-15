@@ -1,0 +1,107 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giriş Yap - Algoritma360</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+        <!-- Logo & Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl shadow-lg mb-4">
+                <i class="fas fa-cube text-white text-4xl"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800">Algoritma360</h1>
+            <p class="text-gray-600 mt-2">Depo Yönetim Sistemi</p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="px-8 py-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                <h2 class="text-2xl font-bold flex items-center justify-center">
+                    <i class="fas fa-sign-in-alt mr-3"></i>Giriş Yap
+                </h2>
+            </div>
+
+            <div class="p-8">
+                @if (ViewBag.Error != null)
+                {
+                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded animate-pulse" role="alert">
+                        <div class="flex items-center">
+                            <i class="fas fa-exclamation-circle mr-3"></i>
+                            <p class="text-sm">@ViewBag.Error</p>
+                        </div>
+                    </div>
+                }
+
+                <form method="post" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-user mr-2 text-gray-500"></i>Kullanıcı Adı
+                        </label>
+                        <input name="username" type="text" required autofocus
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 bg-gray-50 focus:bg-white"
+                               placeholder="Kullanıcı adınızı girin" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-lock mr-2 text-gray-500"></i>Şifre
+                        </label>
+                        <input name="password" type="password" required
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 bg-gray-50 focus:bg-white"
+                               placeholder="Şifrenizi girin" />
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+                            <span class="ml-2 text-sm text-gray-600">Beni Hatırla</span>
+                        </label>
+                        <a href="#" class="text-sm text-blue-600 hover:text-blue-700 transition duration-200">
+                            Şifremi Unuttum?
+                        </a>
+                    </div>
+
+                    <button type="submit"
+                            class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-lg font-medium transition duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Giriş Yap
+                    </button>
+                </form>
+
+                <div class="mt-6 pt-6 border-t border-gray-200 text-center">
+                    <p class="text-sm text-gray-600">
+                        Henüz hesabınız yok mu? 
+                        <a href="#" class="text-blue-600 hover:text-blue-700 font-medium transition duration-200">
+                            Kayıt Ol
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-8 text-sm text-gray-600">
+            <p>&copy; @DateTime.Now.Year Algoritma360 - Tüm hakları saklıdır.</p>
+        </div>
+    </div>
+
+    <script>
+        // Add some animation to the login form
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                const button = form.querySelector('button[type="submit"]');
+                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Giriş yapılıyor...';
+                button.disabled = true;
+            });
+        });
+    </script>
+</body>
+</html>

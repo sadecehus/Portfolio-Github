@@ -1,0 +1,15 @@
+{
+  "name": "algoritma360",
+  "version": "1.0.0",
+  "description": "Depo Yönetim Sistemi",
+  "scripts": {
+    "build:css": "npx tailwindcss -i ./wwwroot/css/input.css -o ./wwwroot/css/output.css --minify",
+    "watch:css": "npx tailwindcss -i ./wwwroot/css/input.css -o ./wwwroot/css/output.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

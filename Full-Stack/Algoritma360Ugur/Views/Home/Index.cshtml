@@ -1,0 +1,152 @@
+﻿@model List<Product>
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_Layout";
+}
+
+
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition duration-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-medium">Toplam Ürün</p>
+                <p class="text-3xl font-bold text-gray-800 mt-2">@Model.Count</p>
+            </div>
+            <div class="bg-blue-100 rounded-full p-4">
+                <i class="fas fa-boxes text-blue-600 text-2xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition duration-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-medium">Aktif Stok</p>
+                <p class="text-3xl font-bold text-gray-800 mt-2">@Model.Sum(p => p.Stock.Quantity)</p>
+            </div>
+            <div class="bg-green-100 rounded-full p-4">
+                <i class="fas fa-warehouse text-green-600 text-2xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition duration-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-medium">Sevkiyat İzni</p>
+                <p class="text-3xl font-bold text-gray-800 mt-2">@Model.Count(p => p.ProductRule.IsAllowed)</p>
+            </div>
+            <div class="bg-purple-100 rounded-full p-4">
+                <i class="fas fa-check-circle text-purple-600 text-2xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition duration-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-medium">Engelli Ürün</p>
+                <p class="text-3xl font-bold text-gray-800 mt-2">@Model.Count(p => !p.ProductRule.IsAllowed)</p>
+            </div>
+            <div class="bg-red-100 rounded-full p-4">
+                <i class="fas fa-ban text-red-600 text-2xl"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content Card -->
+<div class="bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+        <h2 class="text-2xl font-bold">Depo Durumu</h2>
+        <p class="text-blue-100 mt-1">Tüm ürünlerin anlık stok ve sevkiyat durumu</p>
+    </div>
+
+    <div class="p-6">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-tag mr-2"></i>Ürün Adı
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-cubes mr-2"></i>Stok Miktarı
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-truck mr-2"></i>Sevkiyat Durumu
+                        </th>
+                      
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var product in Model)
+                    {
+                        <tr class="hover:bg-gray-50 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center text-white font-bold">
+                                        @product.Name.Substring(0, 1).ToUpper()
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">@product.Name</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    @if (product.Stock.Quantity > 50)
+                                    {
+                                        <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            <i class="fas fa-arrow-up mr-1"></i>@product.Stock.Quantity
+                                        </span>
+                                    }
+                                    else if (product.Stock.Quantity > 10)
+                                    {
+                                        <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            <i class="fas fa-minus mr-1"></i>@product.Stock.Quantity
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                            <i class="fas fa-arrow-down mr-1"></i>@product.Stock.Quantity
+                                        </span>
+                                    }
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if (product.ProductRule.IsAllowed)
+                                {
+                                    <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        <i class="fas fa-check-circle mr-2"></i>Aktif
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                        <i class="fas fa-times-circle mr-2"></i>Engelli
+                                    </span>
+                                }
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (Model.Count == 0)
+        {
+            <div class="text-center py-12">
+                <i class="fas fa-box-open text-gray-300 text-6xl mb-4"></i>
+                <p class="text-gray-500 text-lg">Henüz ürün eklenmemiş</p>
+                <a asp-controller="Product" asp-action="Create" class="mt-4 inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition duration-200">
+                    <i class="fas fa-plus mr-2"></i>İlk Ürünü Ekle
+                </a>
+            </div>
+        }
+    </div>
+</div>
