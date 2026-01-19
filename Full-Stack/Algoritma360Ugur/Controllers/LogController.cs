@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Algoritma360Ugur.Controllers;
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class LogController : Controller
 {
     private readonly AppDbContext _context;

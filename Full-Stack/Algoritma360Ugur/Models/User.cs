@@ -11,6 +11,9 @@ public class User
     
     [Required]
     public string PasswordHash { get; set; } = null!;
+
+
+    public string Role { get; set; } = "Viewer";
     
     public ICollection<Log> Logs { get; set; } = new List<Log>();
 }

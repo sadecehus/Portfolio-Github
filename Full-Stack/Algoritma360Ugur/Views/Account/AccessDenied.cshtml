@@ -1,0 +1,83 @@
+@{
+    ViewData["Title"] = "Erişim Engellendi";
+    Layout = "_Layout";
+}
+
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full">
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-red-600 to-red-700 px-8 py-6 text-center">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-4">
+                    <i class="fas fa-ban text-red-600 text-4xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-white">Erişim Engellendi</h1>
+            </div>
+
+            <!-- Content -->
+            <div class="px-8 py-10 text-center">
+                <div class="mb-6">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
+                        <i class="fas fa-shield-alt text-red-600 text-2xl"></i>
+                    </div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                        Yetkiniz Bulunmuyor
+                    </h2>
+                    <p class="text-gray-600 leading-relaxed">
+                        Bu sayfaya erişim için gerekli yetkilere sahip değilsiniz. Lütfen yönetici ile iletişime geçin.
+                    </p>
+                </div>
+
+                <!-- Info Box -->
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded text-left">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-triangle text-red-500 text-xl"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-red-700">
+                                <strong>Dikkat:</strong> Bu sayfaya erişmek için ÜST yetkilerine sahip olmanız gerekmektedir.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="space-y-3">
+                    <a asp-controller="Home" asp-action="Index"
+                       class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
+                        <i class="fas fa-home mr-2"></i>
+                        Ana Sayfaya Dön
+                    </a>
+                    
+        
+                </div>
+
+                <!-- Additional Info -->
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <p class="text-sm text-gray-500">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        Yardıma mı ihtiyacınız var? Sistem yöneticinizle iletişime geçin.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Extra Info Card -->
+        <div class="mt-6 bg-gray-50 rounded-lg p-4">
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-lightbulb text-yellow-500 text-xl"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-gray-800 mb-1">
+                        Yetkileriniz Hakkında
+                    </h3>
+                    <p class="text-xs text-gray-600">
+                        Hesabınızın yetkilerini görüntülemek veya yetki talebi oluşturmak için sistem yöneticinize başvurun.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

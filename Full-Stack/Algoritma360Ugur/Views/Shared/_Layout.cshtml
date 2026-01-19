@@ -29,18 +29,48 @@
                     <i class="fas fa-home w-5"></i>
                     <span>Ana Sayfa</span>
                 </a>
-                <a asp-controller="Product" asp-action="Create" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-10 transition duration-200">
-                    <i class="fas fa-plus-circle w-5"></i>
-                    <span>Ürün Ekle</span>
-                </a>
-                <a asp-controller="Shipment" asp-action="Index" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-10 transition duration-200">
-                    <i class="fas fa-shipping-fast w-5"></i>
-                    <span>Sevkiyat</span>
-                </a>
-                <a asp-controller="Log" asp-action="Index" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-10 transition duration-200">
-                    <i class="fas fa-clipboard-list w-5"></i>
-                    <span>Kayıtlar</span>
-                </a>
+            @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Product" asp-action="Create" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-10 transition duration-200">
+                        <i class="fas fa-plus-circle w-5"></i>
+                        <span>Ürün Ekle</span>
+                    </a>
+                }
+                @if (User.IsInRole("Admin") || User.IsInRole("Operator"))
+                {
+                    <a asp-controller="Shipment" asp-action="Index" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-10 transition duration-200">
+                        <i class="fas fa-shipping-fast w-5"></i>
+                        <span>Sevkiyat</span>
+                    </a>
+                }
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Log" asp-action="Index" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-10 transition duration-200">
+                        <i class="fas fa-clipboard-list w-5"></i>
+                        <span>Kayıtlar</span>
+                    </a>
+                }
+
+                @if (User.IsInRole("Admin") || User.IsInRole("Operator"))
+                {
+                    <a asp-controller="Product" asp-action="AddStock" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-10 transition duration-200">
+                        <i class="fas fa-boxes w-5"></i>
+                        <span>Stok Ekle</span>
+                    </a>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Report" asp-action="StockReport" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-10 transition duration-200">
+                        <i class="fas fa-boxes w-5"></i>
+                        <span>Stok Raporu</span>
+                    </a>
+                }
+                @if(User.IsInRole("Admin")){
+                <a asp-controller="Report" asp-action="TransactionReport" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-10 transition duration-200">
+                    <i class="fas fa-boxes w-5"></i>
+                    <span>İşlem Raporu</span>
+                </a>}
             </nav>
 
             <!-- User Section -->

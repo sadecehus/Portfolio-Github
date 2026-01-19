@@ -34,7 +34,7 @@ public class AccountController : Controller
         var user = await _context.Users
                 .FirstOrDefaultAsync(u =>
                 u.Username == username &&
-                u.PasswordHash == password); // şimdilik düz
+                u.PasswordHash == password);
 
         if (user == null)
         {
@@ -45,7 +45,8 @@ public class AccountController : Controller
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Role, user.Role)
         };
 
         var identity = new ClaimsIdentity(
@@ -68,6 +69,10 @@ public class AccountController : Controller
             CookieAuthenticationDefaults.AuthenticationScheme);
 
         return RedirectToAction("Login");
+    }
+    public IActionResult AccessDenied()
+    {
+        return View();
     }
     
 }

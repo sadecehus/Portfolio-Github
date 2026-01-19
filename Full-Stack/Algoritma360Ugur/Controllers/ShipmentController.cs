@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Algoritma360Ugur.Models;
 
 namespace Algoritma360Ugur.Controllers;
-[Authorize]
+[Authorize(Roles = "Admin,Operator")]
 public class ShipmentController : Controller
 {
     private readonly AppDbContext _context;
@@ -49,28 +49,31 @@ public class ShipmentController : Controller
             ViewBag.Error = "This product is not allowed for shipment";
             return await Index();
         }
-        if (product.Stock.Quantity < quantity)
+        if (product.Stock == null || product.Stock.Quantity < quantity)
         {
-            ViewBag.Error = "Insufficient stock.";
+            ViewBag.Error = "Insufficient stock";
             return await Index();
         }
         product.Stock.Quantity -= quantity;
+
+        var userId = int.Parse(
+            User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)!
+        );
         
-        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var log =  new Log {
+        var log = new Log
+        {
             ProductId = product.Id,
             UserId = userId,
-            Quantity = quantity,
+            Quantity = -quantity, 
             CreatedAt = DateTime.Now
         };
-        
+
         _context.Logs.Add(log);
 
         await _context.SaveChangesAsync();
 
         ViewBag.Success = "Shipment completed successfully.";
         return await Index();
-
     }
     
 }

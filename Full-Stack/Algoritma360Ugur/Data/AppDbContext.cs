@@ -26,6 +26,34 @@ public class AppDbContext : DbContext
             .HasOne(p => p.ProductRule)
             .WithOne(r => r.Product)
             .HasForeignKey<ProductRule>(r => r.ProductId);
+        
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<User>().HasData(
+            new User
+            {
+                Id = 1,
+                Username = "admin",
+                PasswordHash = "123", 
+                Role = "Admin"
+            },
+            new User
+            {
+                Id = 2,
+                Username = "operator",
+                PasswordHash = "123",
+                Role = "Operator"
+            },
+            new User
+            {
+                Id = 3,
+                Username = "viewer",
+                PasswordHash = "123",
+                Role = "Viewer"
+            }
+        );
     }
+    
+    
 
 }
