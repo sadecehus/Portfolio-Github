@@ -3,12 +3,12 @@
 Welcome to my comprehensive development portfolio! This repository showcases my skills and projects across various technologies and frameworks. Also you can reach my portfolio with <a href="https://huskocaturk.vercel.app/">link to my portfolio</a>
 
 ## Projects in Repo
-**Nextflix (/frontend/nextjs)** <br>
-**Drum Kit (/frontend/htmlcssjs)** <br>
+**Algoritma360Ugur (/fullstack)**  .Net MVC Depo Takip Sistemi<br>
+**Nextflix (/frontend/nextjs)** Netflix Clone <br>
 **İlet Bilişim Hizmetleri(/frontend/nextjs)(Internship)** <br>
 **Gamelusive Education (/frontend/nextjs)(freelance work. it deployed on www.gamelusiveedu.eu)** <br>
-**Mobile Movie App (/mobil/reactnative)**<br>
-**Kidney Disease Segmentation (/Image Processing Full Stack/)**<br>
+**Mobile Movie App (/mobil/reactnative)** <br>
+**Kidney Disease Segmentation (/Image Processing Full Stack/)** <br>
 
 ## 📁 Repository Structure
 
