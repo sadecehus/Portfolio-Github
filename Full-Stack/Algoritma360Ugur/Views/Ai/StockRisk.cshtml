@@ -1,0 +1,128 @@
+@model List<Algoritma360Ugur.ViewModels.StockRiskViewModel>
+
+@{
+    ViewData["Title"] = "Stok Risk Analizi";
+    Layout = "_Layout";
+}
+
+<div class="max-w-7xl mx-auto">
+    <div class="mb-6 flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">📦 Stok Risk Analizi</h1>
+            <p class="text-gray-600 mt-2">AI destekli stok risk değerlendirmesi - Son 7 günlük satış verilerine göre</p>
+        </div>
+        <a asp-action="Index" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+            <i class="fas fa-arrow-left mr-2"></i>AI Paneline Dön
+        </a>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-sm font-semibold">Ürün Adı</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold">Mevcut Stok</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold">Haftalık Satış</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold">Günlük Ort.</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold">Risk Seviyesi</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold">AI Yorumu</th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 font-semibold text-gray-900">@item.ProductName</td>
+                            <td class="px-6 py-4 text-gray-700">
+                                <span class="flex items-center">
+                                    <i class="fas fa-boxes text-blue-500 mr-2"></i>
+                                    @item.CurrentStock
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-gray-700">
+                                <span class="flex items-center">
+                                    <i class="fas fa-shopping-cart text-green-500 mr-2"></i>
+                                    @item.WeeklySales
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-gray-700">
+                                <span class="flex items-center">
+                                    <i class="fas fa-chart-line text-purple-500 mr-2"></i>
+                                    @item.DailyAverageSales.ToString("F1")
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                @if (item.RiskLevel == "High")
+                                {
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-800">
+                                        <i class="fas fa-exclamation-circle mr-2"></i>Yüksek
+                                    </span>
+                                }
+                                else if (item.RiskLevel == "Medium")
+                                {
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-yellow-100 text-yellow-800">
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>Orta
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800">
+                                        <i class="fas fa-check-circle mr-2"></i>Düşük
+                                    </span>
+                                }
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-start">
+                                    <i class="fas fa-robot text-blue-500 mr-2 mt-1"></i>
+                                    <span class="text-sm text-gray-700">@item.AiComment</span>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle text-green-500 text-2xl mr-3"></i>
+                    <div>
+                        <p class="font-semibold text-gray-800">Düşük Risk</p>
+                        <p class="text-sm text-gray-600">Stok 7 günden fazla yeterli</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle text-yellow-500 text-2xl mr-3"></i>
+                    <div>
+                        <p class="font-semibold text-gray-800">Orta Risk</p>
+                        <p class="text-sm text-gray-600">Stok 3-7 gün arası yeterli</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-circle text-red-500 text-2xl mr-3"></i>
+                    <div>
+                        <p class="font-semibold text-gray-800">Yüksek Risk</p>
+                        <p class="text-sm text-gray-600">Stok 3 günden az yeterli</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="bg-white rounded-xl shadow p-12 text-center">
+            <i class="fas fa-inbox text-gray-300 text-6xl mb-4"></i>
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Henüz Analiz Edilecek Ürün Yok</h3>
+            <p class="text-gray-500">Ürün ekleyip satış yapıldığında AI analizi başlayacaktır.</p>
+        </div>
+    }
+</div>

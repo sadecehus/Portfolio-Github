@@ -1,0 +1,55 @@
+@{
+    ViewData["Title"] = "Yapay Zeka Kontrol Paneli";
+    Layout = "_Layout";
+}
+
+<div class="max-w-5xl mx-auto">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold mb-2 text-gray-800">🤖 Yapay Zeka Karar Destek Sistemi</h1>
+        <p class="text-gray-600">OpenAI GPT-4 ile desteklenen akıllı stok analiz araçları</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <a asp-action="StockRisk"
+           class="block p-8 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition duration-300">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-exclamation-triangle text-3xl mr-3"></i>
+                <h2 class="text-2xl font-bold">Stok Risk Analizi</h2>
+            </div>
+            <p class="text-blue-100 mb-4">
+                Son 7 günlük satış verilerine göre stok seviyelerini analiz eder ve risk seviyesini belirler.
+            </p>
+            <div class="flex items-center text-sm text-blue-100">
+                <i class="fas fa-chart-line mr-2"></i>
+                <span>Haftalık satış trendi • AI tavsiye</span>
+            </div>
+        </a>
+
+        <div class="block p-8 bg-gradient-to-br from-gray-300 to-gray-400 rounded-xl shadow opacity-70 cursor-not-allowed">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-chart-bar text-3xl mr-3 text-gray-600"></i>
+                <h2 class="text-2xl font-bold text-gray-700">Talep Tahmini</h2>
+            </div>
+            <p class="text-gray-600 mb-4">
+                Geçmiş verilere dayalı gelecek talep trendlerini tahmin eder.
+            </p>
+            <div class="flex items-center text-sm text-gray-600">
+                <i class="fas fa-clock mr-2"></i>
+                <span>Yakında Gelecek</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-8 p-6 bg-blue-50 rounded-xl border-l-4 border-blue-500">
+        <div class="flex items-start">
+            <i class="fas fa-info-circle text-blue-500 text-xl mr-3 mt-1"></i>
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-2">Nasıl Çalışır?</h3>
+                <p class="text-gray-700 text-sm">
+                    AI analiz sistemi, ürünlerinizin mevcut stok durumunu son satış trendleriyle karşılaştırır. 
+                    GPT-4 modeli her ürün için özel risk değerlendirmesi yaparak stok yönetimi kararlarınıza destek olur.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

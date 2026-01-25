@@ -1,11 +1,15 @@
 using Algoritma360Ugur.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Algoritma360Ugur.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<AiStockRiskService>();
+
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -17,7 +21,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=app.db"));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("SqLite")));
 
 var app = builder.Build();
 

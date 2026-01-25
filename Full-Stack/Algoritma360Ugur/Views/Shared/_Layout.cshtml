@@ -71,6 +71,20 @@
                     <i class="fas fa-boxes w-5"></i>
                     <span>İşlem Raporu</span>
                 </a>}
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Ai" asp-action="Index" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-10 transition duration-200">
+                        <i class="fas fa-brain w-5"></i>
+                        <span>Yapay Zeka</span>
+                    </a>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Ai" asp-action="StockRisk" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-10 transition duration-200">
+                        <i class="fas fa-exclamation-triangle w-5"></i>
+                        <span>Stok Risk Analizi</span>
+                    </a>
+                }
             </nav>
 
             <!-- User Section -->
@@ -82,7 +96,18 @@
                         </div>
                         <div class="flex-1">
                             <p class="text-sm font-medium">@User.Identity!.Name</p>
-                            <p class="text-xs text-gray-300">Yönetici</p>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <p class="text-xs text-gray-300">Yönetici</p>
+                            }
+                            else if (User.IsInRole("Operator"))
+                            {
+                                <p class="text-xs text-gray-300">Operatör</p>
+                            }
+                            else
+                            {
+                                <p class="text-xs text-gray-300">Kullanıcı</p>
+                            }
                         </div>
                     </div>
                     <form asp-controller="Account" asp-action="Logout" method="post">
