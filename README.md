@@ -3,6 +3,7 @@
 Welcome to my comprehensive development portfolio! This repository showcases my skills and projects across various technologies and frameworks. Also you can reach my portfolio with <a href="https://huskocaturk.vercel.app/">link to my portfolio</a>
 
 ## Projects in Repo
+**LinkedIn Skill Analyzer** Analyze Jobs with OpenAI. <br>
 **Algoritma360Ugur (/fullstack)**  .Net MVC Depo Takip Sistemi<br>
 **Nextflix (/frontend/nextjs)** Netflix Clone <br>
 **İlet Bilişim Hizmetleri(/frontend/nextjs)(Internship)** <br>
